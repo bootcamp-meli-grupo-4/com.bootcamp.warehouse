@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class OrderMapper implements Mapper<Order, OrderDto>{
+public class OrderMapper implements MapperDtoToModel<Order, OrderDto>{
     private ProductStockMapper productStockMapper;
 
     public OrderMapper(ProductStockMapper productStockMapper) {
@@ -28,8 +28,5 @@ public class OrderMapper implements Mapper<Order, OrderDto>{
         return order;
     }
 
-    @Override
-    public OrderDto modelToDto(Order model) {
-        return null;
-    }
+
 }

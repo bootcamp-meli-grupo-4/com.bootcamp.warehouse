@@ -24,7 +24,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity createOrder(@Valid @RequestBody OrderDto orderDto){
+    public ResponseEntity createOrder(@RequestBody OrderDto orderDto){
         List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
     }
