@@ -1,7 +1,6 @@
 package com.mercadolibre.dambetan01.service.impl;
 
-import com.mercadolibre.dambetan01.exceptions.ProductNotFound;
-import com.mercadolibre.dambetan01.exceptions.SectorNotFound;
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.model.Sector;
 import com.mercadolibre.dambetan01.repository.SectorRepository;
 import com.mercadolibre.dambetan01.service.SectorService;
@@ -19,6 +18,6 @@ public class SectorServiceImpl implements SectorService {
     @Override
     public Sector findById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new SectorNotFound("Not found sector with code "+id));
+                .orElseThrow(() -> new NotFoundException("Not found sector with code "+id));
     }
 }
