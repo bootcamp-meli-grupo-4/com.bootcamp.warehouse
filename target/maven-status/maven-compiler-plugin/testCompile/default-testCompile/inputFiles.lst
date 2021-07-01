@@ -1,0 +1,11 @@
+/app/src/test/java/com/mercadolibre/dambetan01/unit/controller/SessionControllerTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/SessionControllerTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/ControllerTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/GenerateDoc.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/ControllerExceptionHandlerTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/IntegrationTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/integration/PingControllerTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/unit/service/SessionServiceImplTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/unit/ScopeUtilTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/unit/beans/RandomSampleBeanTest.java
+/app/src/test/java/com/mercadolibre/dambetan01/util/MockitoExtension.java

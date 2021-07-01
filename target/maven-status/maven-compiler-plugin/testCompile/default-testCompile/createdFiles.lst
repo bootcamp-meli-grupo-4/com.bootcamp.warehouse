@@ -1,0 +1,11 @@
+com/mercadolibre/dambetan01/integration/IntegrationTest.class
+com/mercadolibre/dambetan01/integration/GenerateDoc.class
+com/mercadolibre/dambetan01/unit/service/SessionServiceImplTest.class
+com/mercadolibre/dambetan01/integration/ControllerExceptionHandlerTest.class
+com/mercadolibre/dambetan01/unit/controller/SessionControllerTest.class
+com/mercadolibre/dambetan01/integration/ControllerTest.class
+com/mercadolibre/dambetan01/integration/PingControllerTest.class
+com/mercadolibre/dambetan01/integration/SessionControllerTest.class
+com/mercadolibre/dambetan01/unit/beans/RandomSampleBeanTest.class
+com/mercadolibre/dambetan01/util/MockitoExtension.class
+com/mercadolibre/dambetan01/unit/ScopeUtilTest.class
