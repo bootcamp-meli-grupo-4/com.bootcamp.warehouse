@@ -9,7 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -33,15 +34,15 @@ public class ProductStockDto {
 
     @JsonProperty("manufacturingDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private Calendar manufacturingDate;
+    private LocalDate manufacturingDate;
 
     @JsonProperty("manufacturingTime")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    private Calendar manufacturingTime;
+    private LocalDateTime manufacturingTime;
 
     @JsonProperty("dueDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private Calendar dueDate;
+    private LocalDate dueDate;
 
     @JsonProperty("productId")
     private Long productId;

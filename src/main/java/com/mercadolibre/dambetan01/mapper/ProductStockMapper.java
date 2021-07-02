@@ -5,8 +5,6 @@ import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.service.ProductService;
 import org.springframework.stereotype.Component;
 
-import static com.mercadolibre.dambetan01.util.DateUtil.*;
-
 @Component
 public class ProductStockMapper implements MapperDtoToModel<ProductStock, ProductStockDto>,
         MapperModelToDto<ProductStock, ProductStockDto>{
@@ -25,11 +23,11 @@ public class ProductStockMapper implements MapperDtoToModel<ProductStock, Produc
         productStock.setProduct(productService.findById(dto.getProductId()));
         productStock.setCurrentQuantity(dto.getCurrentQuantity());
         productStock.setCurrentTemperature(dto.getCurrentTemperature());
-        productStock.setDueDate(calendarToLocalDate(dto.getDueDate()));
+        productStock.setDueDate(dto.getDueDate());
         productStock.setInitialQuantity(dto.getInitialQuantity());
-        productStock.setManufacturingDate(calendarToLocalDate(dto.getManufacturingDate()));
+        productStock.setManufacturingDate(dto.getManufacturingDate());
         productStock.setMinimumTemperature(dto.getMinimumTemperature());
-        productStock.setManufacturingTime(calendarToLocalDateTime(dto.getManufacturingTime()));
+        productStock.setManufacturingTime(dto.getManufacturingTime());
         return productStock;
     }
 
@@ -39,13 +37,13 @@ public class ProductStockMapper implements MapperDtoToModel<ProductStock, Produc
     public ProductStockDto modelToDto(ProductStock model) {
         ProductStockDto dto = new ProductStockDto();
         dto.setProductId(model.getId());
-        dto.setDueDate(localDateToDate(model.getDueDate()));
+        dto.setDueDate(model.getDueDate());
         dto.setCurrentQuantity(model.getCurrentQuantity());
         dto.setCurrentTemperature(model.getCurrentTemperature());
         dto.setInitialQuantity(model.getInitialQuantity());
-        dto.setManufacturingDate(localDateToDate(model.getManufacturingDate()));
+        dto.setManufacturingDate(model.getManufacturingDate());
         dto.setMinimumTemperature(model.getMinimumTemperature());
-        dto.setManufacturingTime(localDateToDateTime(model.getManufacturingTime()));
+        dto.setManufacturingTime(model.getManufacturingTime());
         return dto;
     }
 }

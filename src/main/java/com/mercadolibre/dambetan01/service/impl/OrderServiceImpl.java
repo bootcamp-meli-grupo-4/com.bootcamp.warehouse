@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order finalOrder = orderRepository.save(order);
         order.getProductStocks().forEach(p -> p.setOrder(finalOrder));
-       productStockService.saveAll(order.getProductStocks());
+        productStockService.saveAll(order.getProductStocks());
 
        return createListProductStockResponseByProductStock(order.getProductStocks());
     }

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -19,7 +19,7 @@ public class OrderDto {
 
     @JsonProperty("orderDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private Calendar orderDate;
+    private LocalDate orderDate;
 
     @JsonProperty("section")
     private SectorDto section;
