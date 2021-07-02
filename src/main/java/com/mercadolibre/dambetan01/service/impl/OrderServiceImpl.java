@@ -22,27 +22,34 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
     private ProductStockResponseMapper productStockResponseMapper;
     private SectorService sectorService;
+    private ProductStockServiceImpl productStockService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper, ProductStockResponseMapper productStockResponseMapper, SectorService sectorService) {
+    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper,
+                            ProductStockResponseMapper productStockResponseMapper,
+                            SectorService sectorService, ProductStockServiceImpl productStockService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.productStockResponseMapper = productStockResponseMapper;
         this.sectorService = sectorService;
+        this.productStockService = productStockService;
     }
 
     public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
         Order order = orderMapper.dtoToModel(orderDto);
         Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
         Long idWarehouse = orderDto.getSection().getWarehouseCode();
+
         if(!idWarehouse.equals(sector.getWarehouse().getId())){
             throw new NotFoundException("Not found relationship between section["+sector.getId()+"]" +
                     " and warehouse["+idWarehouse+"]");
         }
         order.setSector(sector);
 
-        orderRepository.save(order);
+        Order finalOrder = orderRepository.save(order);
+        order.getProductStocks().forEach(p -> p.setOrder(finalOrder));
+       productStockService.saveAll(order.getProductStocks());
 
-        return createListProductStockResponseByProductStock(order.getProductStocks());
+       return createListProductStockResponseByProductStock(order.getProductStocks());
     }
 
     private List<ProductStockResponseDto> createListProductStockResponseByProductStock(List<ProductStock> productStocks) {

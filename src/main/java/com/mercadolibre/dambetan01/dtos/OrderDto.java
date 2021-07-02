@@ -14,6 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDto {
+    @JsonProperty("orderNumber")
+    private Long orderNumber;
+
     @JsonProperty("orderDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     private Calendar orderDate;

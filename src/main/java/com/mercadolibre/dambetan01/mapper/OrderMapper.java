@@ -23,6 +23,9 @@ public class OrderMapper implements MapperDtoToModel<Order, OrderDto>{
     @Override
     public Order dtoToModel(OrderDto dto) {
         Order order = new Order();
+        if(dto.getOrderNumber() != null) {
+            order.setId(dto.getOrderNumber());
+        }
         order.setOrderDate(calendarToLocalDate(dto.getOrderDate()));
         List<ProductStock> productStocks = new ArrayList<>();
         dto.getBatchStock().forEach(p-> productStocks.add(productStockMapper.dtoToModel(p)));

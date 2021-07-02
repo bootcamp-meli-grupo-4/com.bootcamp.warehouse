@@ -3,6 +3,7 @@ package com.mercadolibre.dambetan01.dtos;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +15,10 @@ import java.util.Calendar;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductStockDto {
+
+    @JsonProperty("batchNumber")
+    private Long batchNumber;
+
     @JsonProperty("currentTemperature")
     private Double currentTemperature;
 

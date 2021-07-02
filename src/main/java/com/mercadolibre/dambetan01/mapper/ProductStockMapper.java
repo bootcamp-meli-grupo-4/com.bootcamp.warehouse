@@ -19,6 +19,9 @@ public class ProductStockMapper implements MapperDtoToModel<ProductStock, Produc
     @Override
     public ProductStock dtoToModel(ProductStockDto dto) {
         ProductStock productStock = new ProductStock();
+        if(dto.getBatchNumber() != null){
+            productStock.setId(dto.getBatchNumber());
+        }
         productStock.setProduct(productService.findById(dto.getProductId()));
         productStock.setCurrentQuantity(dto.getCurrentQuantity());
         productStock.setCurrentTemperature(dto.getCurrentTemperature());

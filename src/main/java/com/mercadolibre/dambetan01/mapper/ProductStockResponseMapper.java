@@ -10,6 +10,7 @@ public class ProductStockResponseMapper implements MapperModelToDto<ProductStock
     @Override
     public ProductStockResponseDto modelToDto(ProductStock model) {
         ProductStockResponseDto dto = new ProductStockResponseDto();
+        dto.setProductId(model.getId());
         dto.setDueDate(model.getDueDate());
         dto.setCurrentQuantity(model.getCurrentQuantity());
         dto.setCurrentTemperature(model.getCurrentTemperature());
