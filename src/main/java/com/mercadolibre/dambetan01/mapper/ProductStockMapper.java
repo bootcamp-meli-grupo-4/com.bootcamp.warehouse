@@ -21,10 +21,10 @@ public class ProductStockMapper implements MapperDtoToModel<ProductStock, Produc
             productStock.setId(dto.getBatchNumber());
         }
         productStock.setProduct(productService.findById(dto.getProductId()));
-        productStock.setCurrentQuantity(dto.getCurrentQuantity());
         productStock.setCurrentTemperature(dto.getCurrentTemperature());
         productStock.setDueDate(dto.getDueDate());
         productStock.setInitialQuantity(dto.getInitialQuantity());
+        productStock.setCurrentQuantity(dto.getCurrentQuantity());
         productStock.setManufacturingDate(dto.getManufacturingDate());
         productStock.setMinimumTemperature(dto.getMinimumTemperature());
         productStock.setManufacturingTime(dto.getManufacturingTime());

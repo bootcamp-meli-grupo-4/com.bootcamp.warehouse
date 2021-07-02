@@ -15,7 +15,6 @@ public class ProductStockResponseMapper implements MapperModelToDto<ProductStock
         dto.setDueDate(model.getDueDate());
         dto.setCurrentQuantity(model.getCurrentQuantity());
         dto.setCurrentTemperature(model.getCurrentTemperature());
-        dto.setInitialQuantity(model.getInitialQuantity());
         dto.setManufacturingDate(model.getManufacturingDate());
         dto.setMinimumTemperature(model.getMinimumTemperature());
         dto.setManufacturingTime(model.getManufacturingTime());

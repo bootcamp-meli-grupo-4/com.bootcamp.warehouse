@@ -36,6 +36,7 @@ public class OrderServiceImpl implements OrderService {
 
     public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
         Order order = orderMapper.dtoToModel(orderDto);
+
         Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
         Long idWarehouse = orderDto.getSection().getWarehouseCode();
 
@@ -43,13 +44,22 @@ public class OrderServiceImpl implements OrderService {
             throw new NotFoundException("Not found relationship between section["+sector.getId()+"]" +
                     " and warehouse["+idWarehouse+"]");
         }
+
         order.setSector(sector);
 
         Order finalOrder = orderRepository.save(order);
-        order.getProductStocks().forEach(p -> p.setOrder(finalOrder));
-        productStockService.saveAll(order.getProductStocks());
+
+        List<ProductStock> productStocks = getProductStockByOrder(finalOrder);
+        productStockService.saveAll(productStocks);
 
        return createListProductStockResponseByProductStock(order.getProductStocks());
+    }
+
+    private List<ProductStock> getProductStockByOrder(Order order){
+        List<ProductStock> productStocks = order.getProductStocks();
+        productStocks.forEach(productStock -> productStock.setCurrentQuantity(productStock.getInitialQuantity()));
+        productStocks.forEach(p -> p.setOrder(order));
+        return productStocks;
     }
 
     private List<ProductStockResponseDto> createListProductStockResponseByProductStock(List<ProductStock> productStocks) {
