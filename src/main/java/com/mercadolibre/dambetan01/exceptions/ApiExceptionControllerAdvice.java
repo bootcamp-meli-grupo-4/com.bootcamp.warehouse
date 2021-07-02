@@ -87,4 +87,18 @@ public class ApiExceptionControllerAdvice {
         );
 
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            IllegalCategoryProductSector.class
+    })
+    @ResponseBody
+    public ApiError invalidCategoryOfProductAndSector(IllegalCategoryProductSector ex) {
+        return new ApiError(
+                ex.getClass().getName(),
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value()
+        );
+
+    }
 }

@@ -2,6 +2,7 @@ package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
@@ -45,6 +46,8 @@ public class OrderServiceImpl implements OrderService {
                     " and warehouse["+idWarehouse+"]");
         }
 
+        this.checkCategoryProductAndSector(order.getProductStocks(), sector);
+
         order.setSector(sector);
 
         Order finalOrder = orderRepository.save(order);
@@ -53,6 +56,16 @@ public class OrderServiceImpl implements OrderService {
         productStockService.saveAll(productStocks);
 
        return createListProductStockResponseByProductStock(order.getProductStocks());
+    }
+
+    private void checkCategoryProductAndSector(List<ProductStock> productStocks, Sector sector){
+        productStocks.stream()
+                .map(ProductStock::getProduct)
+                .filter(product -> !product.getCategory().getName().equals(sector.getCategory().getName()))
+                .findFirst()
+                .ifPresent(product -> {
+                    throw new IllegalCategoryProductSector("Product "+product.getName()+" has category diff of Sector");
+                });
     }
 
     private List<ProductStock> getProductStockByOrder(Order order){
