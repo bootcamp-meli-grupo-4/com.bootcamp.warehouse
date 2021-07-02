@@ -14,7 +14,7 @@ public class StatusPurchaseOrder {
 
     private String name;
 
-    @OneToMany(mappedBy = "purchase_order")
+    @OneToMany(mappedBy = "statusPurchaseOrder")
     private List<PurchaseOrder> purchaseOrder;
 
 }

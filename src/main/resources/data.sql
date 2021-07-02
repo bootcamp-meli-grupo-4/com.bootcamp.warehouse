@@ -1,3 +1,8 @@
+--STATUS PURCHASE ORDER
+INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('1', 'Novo');
+INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('2', 'Em Processo');
+INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('3', 'Finalizado');
+
 --CATEGORIES
 INSERT INTO `category` (`id`, `name`) VALUES ('1', 'fresco');
 INSERT INTO `category` (`id`, `name`) VALUES ('2', 'refrigerado');
@@ -14,14 +19,18 @@ INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_f
 INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('2', 'contra123', '1', 'user_two', '2');
 INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('3', 'contra123', '1', 'user_three', '3');
 INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('4', 'contra123', '1', 'user_four', '4');
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('5', 'contra123', '1', 'user_five', '4');
 
 --SELLER
 INSERT INTO `seller` (`id`) VALUES ('1');
 INSERT INTO `seller` (`id`) VALUES ('2');
 
---SELLER
+--REPRESENTANT
 INSERT INTO `representant` (`id`) VALUES ('3');
 INSERT INTO `representant` (`id`) VALUES ('4');
+
+--BUYER
+INSERT INTO `buyer` (`id`) VALUES ('5');
 
 --PRODUCTS
 INSERT INTO `product` (`id`, `name`, `seller_id`, `category_id`) VALUES ('1', 'Uva', '1', '1');
@@ -42,6 +51,6 @@ INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('1', '3');
 INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('2', '3');
 
 --SECTORS
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('1', '1', '1');
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('2', '2', '2');
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('3', '3', '2');
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('1', '1', '1', 0, 10000);
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('2', '2', '2', 0, 15000);
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('3', '3', '2', 0, 17000);
