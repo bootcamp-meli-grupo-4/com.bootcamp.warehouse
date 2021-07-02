@@ -39,13 +39,4 @@ public class ControllerExceptionHandler {
 				.body(apiError);
 	}
 
-	@ExceptionHandler(value = { Exception.class })
-	protected ResponseEntity<ApiError> handleUnknownException(Exception e) {
-		LOGGER.error("Internal error", e);
-		NewRelic.noticeError(e);
-
-		ApiError apiError = new ApiError("internal_error", "Internal server error", HttpStatus.INTERNAL_SERVER_ERROR.value());
-		return ResponseEntity.status(apiError.getStatus())
-				.body(apiError);
-	}
 }

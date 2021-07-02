@@ -83,7 +83,7 @@ public class ApiExceptionControllerAdvice {
         return new ApiError(
                 ex.getClass().getName(),
                 ex.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                HttpStatus.NOT_FOUND.value()
         );
 
     }

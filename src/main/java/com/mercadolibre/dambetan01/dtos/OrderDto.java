@@ -3,53 +3,27 @@ package com.mercadolibre.dambetan01.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRootName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDto {
+    @JsonProperty("orderDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate orderDate;
+    private Calendar orderDate;
 
     @JsonProperty("section")
-    private SectorDto sector;
+    private SectorDto section;
 
     @JsonProperty("batchStock")
-    private List<ProductStockDto> productStocks;
+    private List<ProductStockDto> batchStock;
 
 
-    public OrderDto() {
-    }
 
-    public OrderDto(LocalDate orderDate, SectorDto sector, List<ProductStockDto> productStocks) {
-        this.orderDate = orderDate;
-        this.sector = sector;
-        this.productStocks = productStocks;
-    }
-
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public SectorDto getSector() {
-        return sector;
-    }
-
-    public void setSector(SectorDto sector) {
-        this.sector = sector;
-    }
-
-    public List<ProductStockDto> getProductStocks() {
-        return productStocks;
-    }
-
-    public void setProductStocks(List<ProductStockDto> productStocks) {
-        this.productStocks = productStocks;
-    }
 }

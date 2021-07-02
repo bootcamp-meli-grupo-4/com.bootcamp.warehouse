@@ -32,8 +32,8 @@ public class OrderServiceImpl implements OrderService {
 
     public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
         Order order = orderMapper.dtoToModel(orderDto);
-        Sector sector = sectorService.findById(orderDto.getSector().getSectionCode());
-        Long idWarehouse = orderDto.getSector().getWarehouseCode();
+        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
+        Long idWarehouse = orderDto.getSection().getWarehouseCode();
         if(!idWarehouse.equals(sector.getWarehouse().getId())){
             throw new NotFoundException("Not found relationship between section["+sector.getId()+"]" +
                     " and warehouse["+idWarehouse+"]");

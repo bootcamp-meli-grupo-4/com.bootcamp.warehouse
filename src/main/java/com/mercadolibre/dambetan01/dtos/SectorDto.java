@@ -1,32 +1,16 @@
 package com.mercadolibre.dambetan01.dtos;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SectorDto {
+    @JsonProperty("sectionCode")
     private Long sectionCode;
+    @JsonProperty("warehouseCode")
     private Long warehouseCode;
-
-    public SectorDto() {
-    }
-
-    public SectorDto(Long sectionCode, Long warehouseCode) {
-        this.sectionCode = sectionCode;
-        this.warehouseCode = warehouseCode;
-    }
-
-    public Long getSectionCode() {
-        return sectionCode;
-    }
-
-    public void setSectionCode(Long sectionCode) {
-        this.sectionCode = sectionCode;
-    }
-
-    public Long getWarehouseCode() {
-        return warehouseCode;
-    }
-
-    public void setWarehouseCode(Long warehouseCode) {
-        this.warehouseCode = warehouseCode;
-    }
 }

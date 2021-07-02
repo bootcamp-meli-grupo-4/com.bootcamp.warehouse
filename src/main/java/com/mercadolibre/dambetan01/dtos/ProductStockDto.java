@@ -1,108 +1,44 @@
 package com.mercadolibre.dambetan01.dtos;
 
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.Calendar;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductStockDto {
+    @JsonProperty("currentTemperature")
     private Double currentTemperature;
 
+    @JsonProperty("minimumTemperature")
     private Double minimumTemperature;
 
+    @JsonProperty("initialQuantity")
     private Integer initialQuantity;
 
+    @JsonProperty("currentQuantity")
     private Integer currentQuantity;
 
+    @JsonProperty("manufacturingDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate manufacturingDate;
+    private Calendar manufacturingDate;
 
+    @JsonProperty("manufacturingTime")
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    private LocalDateTime manufacturingTime;
+    private Calendar manufacturingTime;
 
+    @JsonProperty("dueDate")
     @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
-    private LocalDate dueDate;
+    private Calendar dueDate;
 
+    @JsonProperty("productId")
     private Long productId;
 
-    public ProductStockDto() {
-    }
-
-    public ProductStockDto(Double currentTemperature, Double minimumTemperature, Integer initialQuantity,
-                           Integer currentQuantity, LocalDate manufacturingDate, LocalDateTime manufacturingTime,
-                           LocalDate dueDate, Long productId) {
-        this.currentTemperature = currentTemperature;
-        this.minimumTemperature = minimumTemperature;
-        this.initialQuantity = initialQuantity;
-        this.currentQuantity = currentQuantity;
-        this.manufacturingDate = manufacturingDate;
-        this.manufacturingTime = manufacturingTime;
-        this.dueDate = dueDate;
-        this.productId = productId;
-    }
-
-    public Double getCurrentTemperature() {
-        return currentTemperature;
-    }
-
-    public void setCurrentTemperature(Double currentTemperature) {
-        this.currentTemperature = currentTemperature;
-    }
-
-    public Double getMinimumTemperature() {
-        return minimumTemperature;
-    }
-
-    public void setMinimumTemperature(Double minimumTemperature) {
-        this.minimumTemperature = minimumTemperature;
-    }
-
-    public Integer getInitialQuantity() {
-        return initialQuantity;
-    }
-
-    public void setInitialQuantity(Integer initialQuantity) {
-        this.initialQuantity = initialQuantity;
-    }
-
-    public Integer getCurrentQuantity() {
-        return currentQuantity;
-    }
-
-    public void setCurrentQuantity(Integer currentQuantity) {
-        this.currentQuantity = currentQuantity;
-    }
-
-    public LocalDate getManufacturingDate() {
-        return manufacturingDate;
-    }
-
-    public void setManufacturingDate(LocalDate manufacturingDate) {
-        this.manufacturingDate = manufacturingDate;
-    }
-
-    public LocalDateTime getManufacturingTime() {
-        return manufacturingTime;
-    }
-
-    public void setManufacturingTime(LocalDateTime manufacturingTime) {
-        this.manufacturingTime = manufacturingTime;
-    }
-
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
 }

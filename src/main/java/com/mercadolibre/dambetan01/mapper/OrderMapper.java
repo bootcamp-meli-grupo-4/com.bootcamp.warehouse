@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.mercadolibre.dambetan01.util.DateUtil.calendarToLocalDate;
+
 @Component
 public class OrderMapper implements MapperDtoToModel<Order, OrderDto>{
     private ProductStockMapper productStockMapper;
@@ -21,12 +23,13 @@ public class OrderMapper implements MapperDtoToModel<Order, OrderDto>{
     @Override
     public Order dtoToModel(OrderDto dto) {
         Order order = new Order();
-        order.setOrderDate(dto.getOrderDate());
+        order.setOrderDate(calendarToLocalDate(dto.getOrderDate()));
         List<ProductStock> productStocks = new ArrayList<>();
-        dto.getProductStocks().forEach(p-> productStocks.add(productStockMapper.dtoToModel(p)));
+        dto.getBatchStock().forEach(p-> productStocks.add(productStockMapper.dtoToModel(p)));
         order.setProductStocks(productStocks);
         return order;
     }
+
 
 
 }
