@@ -3,13 +3,14 @@ package com.mercadolibre.dambetan01.service.impl;
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
+import com.mercadolibre.dambetan01.exceptions.InvalidRepresentant;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
-import com.mercadolibre.dambetan01.model.Order;
-import com.mercadolibre.dambetan01.model.ProductStock;
-import com.mercadolibre.dambetan01.model.Sector;
+import com.mercadolibre.dambetan01.model.*;
+import com.mercadolibre.dambetan01.repository.AccountRepository;
 import com.mercadolibre.dambetan01.repository.OrderRepository;
+import com.mercadolibre.dambetan01.repository.RepresentantRepository;
 import com.mercadolibre.dambetan01.service.OrderService;
 import com.mercadolibre.dambetan01.service.SectorService;
 import org.springframework.stereotype.Service;
@@ -27,19 +28,22 @@ public class OrderServiceImpl implements OrderService {
     private ProductStockResponseMapper productStockResponseMapper;
     private SectorService sectorService;
     private ProductStockServiceImpl productStockService;
+    private RepresentantRepository representantRepository;
 
     public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper,
                             ProductStockResponseMapper productStockResponseMapper,
-                            SectorService sectorService, ProductStockServiceImpl productStockService) {
+                            SectorService sectorService, ProductStockServiceImpl productStockService,
+                            RepresentantRepository representantRepository) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.productStockResponseMapper = productStockResponseMapper;
         this.sectorService = sectorService;
         this.productStockService = productStockService;
+        this.representantRepository = representantRepository;
     }
 
-    public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
-        Order order = checkOrderValues(orderDto);
+    public List<ProductStockResponseDto> crateOrder(OrderDto orderDto, Long idRepresentant) {
+        Order order = checkOrderValues(orderDto, idRepresentant);
 
         Order finalOrder = orderRepository.save(order);
 
@@ -49,23 +53,37 @@ public class OrderServiceImpl implements OrderService {
         return createListProductStockResponseByProductStock(productStocks);
     }
 
-    private Order checkOrderValues(OrderDto orderDto) {
+    private Order checkOrderValues(OrderDto orderDto, Long idRepresentant) {
         Order order = orderMapper.dtoToModel(orderDto);
-        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
-        Long idWarehouse = orderDto.getSection().getWarehouseCode();
 
-        if (!idWarehouse.equals(sector.getWarehouse().getId())) {
-            throw new NotFoundException("Not found relationship between section[" + sector.getId() + "]" +
-                    " and warehouse[" + idWarehouse + "]");
-        }
+        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
+        checkRelationBetweenWarehouseAndSector(orderDto.getSection().getWarehouseCode(), sector);
+
+        Warehouse warehouse = sector.getWarehouse();
+        checkRelationBetweenRepresentantAndWarehouse(idRepresentant, warehouse);
+
         List<ProductStock> productStocks = order.getProductStocks();
         this.checkCategoryProductAndSector(productStocks, sector);
 
         Integer quantity = getQuantityProducts(productStocks);
-
         this.sectorService.checkSectorSpace(sector, quantity);
+
         order.setSector(sector);
         return order;
+    }
+
+    private void checkRelationBetweenRepresentantAndWarehouse(Long idRepresentant, Warehouse warehouse) {
+        Optional<Representant> representant = representantRepository.findById(idRepresentant);
+        if(representant.isEmpty() || !warehouse.getRepresentant().getId().equals(representant.get().getId())){
+            throw new InvalidRepresentant("This representant doesn't put product on this warehouse");
+        }
+    }
+
+    private void checkRelationBetweenWarehouseAndSector(Long idWarehouse, Sector sector) {
+        if (!idWarehouse.equals(sector.getWarehouse().getId())) {
+            throw new NotFoundException("Not found relationship between section[" + sector.getId() + "]" +
+                    " and warehouse[" + idWarehouse + "]");
+        }
     }
 
     private Integer getQuantityProducts(List<ProductStock> productStocks) {

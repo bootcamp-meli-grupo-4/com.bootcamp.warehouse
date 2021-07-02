@@ -90,7 +90,7 @@ public class ApiExceptionControllerAdvice {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
-            IllegalCategoryProductSector.class, NoSectorSpace.class
+            IllegalCategoryProductSector.class, NoSectorSpace.class, InvalidRepresentant.class
     })
     @ResponseBody
     public ApiError invalidCategoryOfProductAndSector(RuntimeException ex) {

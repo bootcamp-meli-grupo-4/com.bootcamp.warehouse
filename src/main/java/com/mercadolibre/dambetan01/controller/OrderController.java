@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/fresh-products/inboundorder/")
+@RequestMapping(path = "/api/v1/fresh-products")
 public class OrderController {
 
     private OrderService orderService;
@@ -19,9 +19,9 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping()
-    public ResponseEntity createOrder(@RequestBody OrderDto orderDto){
-        List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto);
+    @PostMapping("/inboundorder/")
+    public ResponseEntity createOrder(@RequestBody OrderDto orderDto, @RequestParam Long idRepresentant){
+        List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto, idRepresentant);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
     }
 
