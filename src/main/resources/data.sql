@@ -42,6 +42,6 @@ INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('1', '3');
 INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('2', '3');
 
 --SECTORS
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('1', '1', '1');
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('2', '2', '2');
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`) VALUES ('3', '3', '2');
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`,`quantity_max`,`current_quantity`) VALUES ('1', '1', '1','10','0');
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`,`quantity_max`,`current_quantity`) VALUES ('2', '2', '2','10','4');
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`,`quantity_max`,`current_quantity`) VALUES ('3', '3', '2','5','1');

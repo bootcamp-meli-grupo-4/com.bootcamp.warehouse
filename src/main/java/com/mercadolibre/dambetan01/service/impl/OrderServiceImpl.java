@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -36,39 +39,62 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
-        Order order = orderMapper.dtoToModel(orderDto);
-
-        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
-        Long idWarehouse = orderDto.getSection().getWarehouseCode();
-
-        if(!idWarehouse.equals(sector.getWarehouse().getId())){
-            throw new NotFoundException("Not found relationship between section["+sector.getId()+"]" +
-                    " and warehouse["+idWarehouse+"]");
-        }
-
-        this.checkCategoryProductAndSector(order.getProductStocks(), sector);
-
-        order.setSector(sector);
+        Order order = checkOrderValues(orderDto);
 
         Order finalOrder = orderRepository.save(order);
 
         List<ProductStock> productStocks = getProductStockByOrder(finalOrder);
         productStockService.saveAll(productStocks);
 
-       return createListProductStockResponseByProductStock(order.getProductStocks());
+        return createListProductStockResponseByProductStock(productStocks);
     }
 
-    private void checkCategoryProductAndSector(List<ProductStock> productStocks, Sector sector){
+    private Order checkOrderValues(OrderDto orderDto) {
+        Order order = orderMapper.dtoToModel(orderDto);
+        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
+        Long idWarehouse = orderDto.getSection().getWarehouseCode();
+
+        if (!idWarehouse.equals(sector.getWarehouse().getId())) {
+            throw new NotFoundException("Not found relationship between section[" + sector.getId() + "]" +
+                    " and warehouse[" + idWarehouse + "]");
+        }
+        List<ProductStock> productStocks = order.getProductStocks();
+        this.checkCategoryProductAndSector(productStocks, sector);
+
+        Integer quantity = getQuantityProducts(productStocks);
+
+        this.sectorService.checkSectorSpace(sector, quantity);
+        order.setSector(sector);
+        return order;
+    }
+
+    private Integer getQuantityProducts(List<ProductStock> productStocks) {
+        AtomicInteger q = new AtomicInteger();
+        Optional<Integer> quantity = productStocks.stream()
+                .map(ProductStock::getInitialQuantity)
+                .filter(Objects::nonNull)
+                .reduce(Integer::sum);
+
+        if (quantity.isEmpty()) {
+            quantity = productStocks.stream()
+                    .map(ProductStock::getCurrentQuantity)
+                    .filter(Objects::nonNull)
+                    .reduce(Integer::sum);
+        }
+        return quantity.get();
+    }
+
+    private void checkCategoryProductAndSector(List<ProductStock> productStocks, Sector sector) {
         productStocks.stream()
                 .map(ProductStock::getProduct)
                 .filter(product -> !product.getCategory().getName().equals(sector.getCategory().getName()))
                 .findFirst()
                 .ifPresent(product -> {
-                    throw new IllegalCategoryProductSector("Product "+product.getName()+" has category diff of Sector");
+                    throw new IllegalCategoryProductSector("Product " + product.getName() + " has category diff of Sector");
                 });
     }
 
-    private List<ProductStock> getProductStockByOrder(Order order){
+    private List<ProductStock> getProductStockByOrder(Order order) {
         List<ProductStock> productStocks = order.getProductStocks();
         productStocks.forEach(productStock -> productStock.setCurrentQuantity(productStock.getInitialQuantity()));
         productStocks.forEach(p -> p.setOrder(order));
@@ -78,7 +104,7 @@ public class OrderServiceImpl implements OrderService {
     private List<ProductStockResponseDto> createListProductStockResponseByProductStock(List<ProductStock> productStocks) {
         List<ProductStockResponseDto> productStockResponseDtoList = new ArrayList<>();
         productStocks
-                .forEach(p-> productStockResponseDtoList.add(productStockResponseMapper.modelToDto(p)));
+                .forEach(p -> productStockResponseDtoList.add(productStockResponseMapper.modelToDto(p)));
         return productStockResponseDtoList;
     }
 }
