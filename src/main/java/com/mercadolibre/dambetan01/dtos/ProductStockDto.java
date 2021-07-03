@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -35,9 +33,12 @@ public class ProductStockDto {
     private Double minimumTemperature;
 
     @JsonProperty("initialQuantity")
+    @NotNull(message = "initialQuantity is required")
+    @Range(min = 1, message = "initialQuantity must start at 1")
     private Integer initialQuantity;
 
     @JsonProperty("currentQuantity")
+    @Range(min = 1, message = "currentQuantity must start at 1")
     private Integer currentQuantity;
 
     @JsonProperty("manufacturingDate")

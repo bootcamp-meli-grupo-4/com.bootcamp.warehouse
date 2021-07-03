@@ -6,4 +6,6 @@ public interface SectorService {
     public Sector findById(Long id);
 
     public void checkSectorSpace(Sector sector, int quantity);
+
+    public Sector findBySectorAndWarehouse(Long idSector, Long idWarehouse);
 }
