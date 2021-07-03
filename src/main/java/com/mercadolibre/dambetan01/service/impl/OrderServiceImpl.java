@@ -2,14 +2,10 @@ package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
-import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
-import com.mercadolibre.dambetan01.exceptions.InvalidRepresentant;
-import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.repository.OrderRepository;
-import com.mercadolibre.dambetan01.repository.RepresentantRepository;
 import com.mercadolibre.dambetan01.service.OrderService;
 import com.mercadolibre.dambetan01.service.RepresentantService;
 import com.mercadolibre.dambetan01.service.SectorService;
@@ -17,9 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -55,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
         return createListProductStockResponseByProductStock(productStocks);
     }
 
-    Order checkOrderValues(OrderDto orderDto, Long idRepresentant) {
+    private Order checkOrderValues(OrderDto orderDto, Long idRepresentant) {
         Order order = orderMapper.dtoToModel(orderDto);
 
         Long idSection =  orderDto.getSection().getSectionCode();
