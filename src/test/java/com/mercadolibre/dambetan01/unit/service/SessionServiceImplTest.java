@@ -2,7 +2,7 @@ package com.mercadolibre.dambetan01.unit.service;
 
 import com.mercadolibre.dambetan01.dtos.response.AccountResponseDTO;
 import com.mercadolibre.dambetan01.exceptions.ApiException;
-import com.mercadolibre.dambetan01.model.Account;
+import com.mercadolibre.dambetan01.model.user.Account;
 import com.mercadolibre.dambetan01.repository.AccountRepository;
 import com.mercadolibre.dambetan01.service.impl.SessionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
