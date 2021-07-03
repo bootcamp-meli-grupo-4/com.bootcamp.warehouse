@@ -1,5 +1,6 @@
-package com.mercadolibre.dambetan01.model;
+package com.mercadolibre.dambetan01.model.user;
 
+import com.mercadolibre.dambetan01.model.purchase.PurchaseOrder;
 import lombok.Data;
 
 import javax.persistence.Entity;

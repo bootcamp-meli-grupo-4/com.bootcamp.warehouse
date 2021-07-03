@@ -1,13 +1,20 @@
-package com.mercadolibre.dambetan01.model;
+package com.mercadolibre.dambetan01.model.purchase;
 
-import lombok.Data;
+import com.mercadolibre.dambetan01.model.user.Buyer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class PurchaseOrder {
 
     @Id
@@ -25,6 +32,6 @@ public class PurchaseOrder {
     private StatusPurchaseOrder statusPurchaseOrder;
 
     @OneToMany(mappedBy = "purchaseOrder")
-    private List<ProductOrder> products;
+    private List<ProductStockPurchaseOrder> products;
 
 }

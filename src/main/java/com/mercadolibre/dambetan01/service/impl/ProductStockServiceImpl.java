@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.service.impl;
 
-import com.mercadolibre.dambetan01.model.ProductStock;
+import com.mercadolibre.dambetan01.model.purchase.ProductStock;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.ProductStockService;
 import org.springframework.stereotype.Service;

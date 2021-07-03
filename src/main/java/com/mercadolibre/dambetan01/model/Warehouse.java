@@ -1,6 +1,10 @@
 package com.mercadolibre.dambetan01.model;
 
-import lombok.Data;
+import com.mercadolibre.dambetan01.model.user.Representant;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Warehouse {
 
     @Id
