@@ -29,4 +29,11 @@ public class SectorServiceImpl implements SectorService {
            throw new NoSectorSpace("The sector doesn't have space, limit max: "+sector.getQuantityMax());
         }
     }
+
+    public Sector findBySectorAndWarehouse(Long idSector, Long idWarehouse) {
+        return repository.findByIdAndWarehouse(idSector, idWarehouse)
+                .orElseThrow(()->
+                        new NotFoundException("Not found relationship between section[" + idSector + "]" +
+                " and warehouse[" + idWarehouse + "]"));
+    }
 }
