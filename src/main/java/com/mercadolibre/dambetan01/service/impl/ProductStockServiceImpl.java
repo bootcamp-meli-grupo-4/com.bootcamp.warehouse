@@ -51,7 +51,7 @@ public class ProductStockServiceImpl implements ProductStockService {
         return quantity.get();
     }
 
-    public List<ProductStock> getProductStockByOrder(Order order) {
+    public List<ProductStock> addOrderOnProductStock(Order order) {
         List<ProductStock> productStocks = order.getProductStocks();
         productStocks.forEach(productStock -> productStock.setCurrentQuantity(productStock.getInitialQuantity()));
         productStocks.forEach(p -> p.setOrder(order));

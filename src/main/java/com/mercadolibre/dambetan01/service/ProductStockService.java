@@ -13,5 +13,5 @@ public interface ProductStockService {
 
     public Integer getQuantityProductsByProductStocks(List<ProductStock> productStocks);
 
-    List<ProductStock> getProductStockByOrder(Order order);
+    List<ProductStock> addOrderOnProductStock(Order order);
 }

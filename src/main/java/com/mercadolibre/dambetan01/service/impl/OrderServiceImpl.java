@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
         Order finalOrder = this.orderRepository.save(order);
 
-        List<ProductStock> productStocks = this.productStockService.getProductStockByOrder(finalOrder);
+        List<ProductStock> productStocks = this.productStockService.addOrderOnProductStock(finalOrder);
         this.productStockService.saveAll(productStocks);
 
         return createListProductStockResponseByProductStock(productStocks);
