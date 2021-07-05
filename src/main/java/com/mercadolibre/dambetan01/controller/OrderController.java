@@ -30,6 +30,7 @@ public class OrderController {
     private final IPurchaseOrderService purchaseOrderService;
 
     @PostMapping("/inboundorder")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
     public ResponseEntity createOrder(@RequestBody OrderDto orderDto){
         List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
