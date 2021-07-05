@@ -9,4 +9,6 @@ public interface ProductService {
     public Product findById(Long id);
 
     public List<ProductListDTO> findAllProductsList();
+
+    public List<ProductListDTO> findAllProductsListByCategory(String category);
 }

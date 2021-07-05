@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -35,6 +36,31 @@ public class ProductServiceImpl implements ProductService {
         if (productList.size() == 0) throw new NotFoundException("Not found products");
 
        return productList;
+    }
+
+    @Override
+    public List<ProductListDTO> findAllProductsListByCategory(String category) {
+
+        String nameCategory = "";
+
+        if(category.equalsIgnoreCase("FR")){
+            nameCategory = "fresco";
+        } else if (category.equalsIgnoreCase("RF")){
+             nameCategory = "refrigerado";
+        } else {
+             nameCategory = "congelado";
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate threeWeeksAgo = today.minusWeeks(3);
+
+        String finalNameCategory = nameCategory;
+        List<ProductListDTO> productList = repository.findAllProductsList(threeWeeksAgo).stream()
+                .filter(data -> data.getCategory().equals(finalNameCategory)).collect(Collectors.toList());
+
+        if (productList.size() == 0) throw new NotFoundException("Not found products");
+
+        return productList;
     }
 
 

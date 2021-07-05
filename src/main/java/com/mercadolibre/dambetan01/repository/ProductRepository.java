@@ -14,6 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             " ps.dueDate)  FROM Product p " +
             "LEFT JOIN ProductStock ps ON (ps.product.id = p.id)" +
             "WHERE ps.dueDate >= :dateValid " +
-            "GROUP BY p.id, p.name, p.category, ps.dueDate HAVING SUM(ps.currentQuantity) > 0")
+            "GROUP BY p.id, p.name, p.category.name, ps.dueDate HAVING SUM(ps.currentQuantity) > 0")
     List<ProductListDTO> findAllProductsList(@Param("dateValid") LocalDate dateValid);
 }
