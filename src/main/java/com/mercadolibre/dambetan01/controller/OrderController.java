@@ -2,6 +2,7 @@ package com.mercadolibre.dambetan01.controller;
 
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
+import com.mercadolibre.dambetan01.dtos.purchase.EditPurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
@@ -36,9 +37,19 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION  + "')")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION + "')")
     public ResponseEntity<?> createPurchaseOrder(@RequestBody @Valid CreatePurchaseOrderDTO createPurchaseOrderDTO, Authentication authentication) {
         Long buyerId = Long.parseLong((String)authentication.getPrincipal());
         return new ResponseEntity<>(purchaseOrderService.createPurchaseOrder(createPurchaseOrderDTO, buyerId), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/orders/{purchaseOrderId}")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.EDIT_PURCHASE_ORDER_PERMISSION + "')")
+    public ResponseEntity<?> editPurchaseOrder(@PathVariable Long purchaseOrderId,
+                                               @RequestBody @Valid EditPurchaseOrderDTO editPurchaseOrderDTO,
+                                               Authentication authentication
+    ) {
+        Long buyerId = Long.parseLong((String)authentication.getPrincipal());
+        return new ResponseEntity<>(purchaseOrderService.editPurchaseOrder(editPurchaseOrderDTO, purchaseOrderId, buyerId), HttpStatus.OK);
     }
 }
