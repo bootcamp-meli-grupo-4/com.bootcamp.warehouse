@@ -4,6 +4,7 @@ import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderResponseDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.ProductPurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.response.ProductUnavailableResponseDTO;
+import com.mercadolibre.dambetan01.exceptions.ProductUnavailableException;
 import com.mercadolibre.dambetan01.dtos.response.purchase.GetPurchaseOrderResponseDTO;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.exceptions.ProductUnavailableException;
