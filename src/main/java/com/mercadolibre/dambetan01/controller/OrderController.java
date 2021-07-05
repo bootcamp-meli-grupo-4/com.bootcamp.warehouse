@@ -11,19 +11,25 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/v1/fresh-products")
+@RequestMapping(path = "/api/v1/fresh-products/inboundorder/")
 public class OrderController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    @PostMapping("/inboundorder/")
+    @PostMapping()
     public ResponseEntity createOrder(@Valid @RequestBody OrderDto orderDto, @RequestParam Long idRepresentant){
         List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto, idRepresentant);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
     }
 
+    @PutMapping("/{orderNumber}")
+    public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@RequestBody OrderDto orderDto, @PathVariable Long orderNumber, @RequestParam Long idRepresentant){
+        orderDto.setOrderNumber(orderNumber);
+        List<ProductStockResponseDto> productStockResponseDtos = orderService.modifyOrder(orderDto, idRepresentant);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productStockResponseDtos);
+    }
 }

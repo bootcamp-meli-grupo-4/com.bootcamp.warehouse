@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface OrderService {
     List<ProductStockResponseDto> crateOrder(OrderDto orderDto, Long idRepresentant);
+
+    List<ProductStockResponseDto> modifyOrder(OrderDto orderDto, Long idRepresentant);
 }

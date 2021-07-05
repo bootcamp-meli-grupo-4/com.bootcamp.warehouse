@@ -3,9 +3,9 @@ package com.mercadolibre.dambetan01.dtos;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Validated
+@Builder
 public class ProductStockDto {
 
     @JsonProperty("batchNumber")
@@ -33,7 +34,6 @@ public class ProductStockDto {
     private Double minimumTemperature;
 
     @JsonProperty("initialQuantity")
-    @NotNull(message = "initialQuantity is required")
     @Range(min = 1, message = "initialQuantity must start at 1")
     private Integer initialQuantity;
 

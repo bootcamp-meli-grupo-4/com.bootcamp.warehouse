@@ -2,6 +2,7 @@ package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.*;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -74,4 +76,19 @@ public class OrderServiceImpl implements OrderService {
                 .forEach(p -> productStockResponseDtoList.add(this.productStockResponseMapper.modelToDto(p)));
         return productStockResponseDtoList;
     }
+
+
+    public List<ProductStockResponseDto> modifyOrder(OrderDto orderDto, Long idRepresentant) {
+        Optional<Order> order = orderRepository.findById(orderDto.getOrderNumber());
+
+        if (order.isPresent()){
+            orderDto.getBatchStock().forEach(p -> p.setInitialQuantity(0));
+        }
+        Order orderUpdate = checkOrderValues(orderDto, idRepresentant);
+
+        Order save = orderRepository.save(orderUpdate);
+
+        return createListProductStockResponseByProductStock(save.getProductStocks());
+    }
+
 }
