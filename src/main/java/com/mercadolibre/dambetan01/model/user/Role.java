@@ -1,7 +1,6 @@
-package com.mercadolibre.dambetan01.model;
+package com.mercadolibre.dambetan01.model.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,16 +17,16 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Sector> sectors;
+    @OneToMany(mappedBy = "role")
+    private List<Account> account;
 
-    @OneToMany(mappedBy = "category")
-    private List<Product> products;
+    @OneToMany(mappedBy = "role")
+    private List<RolePermission> rolePermissions;
 }

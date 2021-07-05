@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.repository;
 
-import com.mercadolibre.dambetan01.model.Account;
+import com.mercadolibre.dambetan01.model.user.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
