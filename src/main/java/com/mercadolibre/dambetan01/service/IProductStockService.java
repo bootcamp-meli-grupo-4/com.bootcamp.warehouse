@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.service;
 
-import com.mercadolibre.dambetan01.model.purchase.ProductStock;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import com.mercadolibre.dambetan01.model.purchase.PurchaseOrder;
 

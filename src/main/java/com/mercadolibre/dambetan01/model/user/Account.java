@@ -25,6 +25,10 @@ public class Account {
 
     private Integer rol;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_country_house_fk", nullable = false)
     private CountryHouse countryHouse;

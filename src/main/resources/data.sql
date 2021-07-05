@@ -1,3 +1,21 @@
+--PERMISSION
+INSERT INTO `permission`(`id`,`name`) VALUES (1, 'REGISTER_STOCK_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (2, 'BUY_PRODUCT_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (3, 'AUTHENTICATED_USER_PERMISSION');
+
+--ROLE
+INSERT INTO `role`(`id`,`name`) VALUES(1,'SELLER');
+INSERT INTO `role`(`id`,`name`) VALUES(2,'BUYER');
+INSERT INTO `role`(`id`,`name`) VALUES(3,'REPRESENTANT');
+
+--ROLE-PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 1); -- REPRESENTANT HAS AUTHENTICATED_USER_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 2); -- BUYER HAS AUTHENTICATED_USER_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 3); -- SELLER HAS AUTHENTICATED_USER_PERMISSION
+
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(2, 2); -- BUYER HAS BUY_PRODUCT_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(1, 3); -- REPRESENTANT HAS REGISTER_STOCK_PERMISSION
+
 --STATUS PURCHASE ORDER
 INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('1', 'Novo');
 INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('2', 'Em Processo');
@@ -15,11 +33,11 @@ INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('3', 'Uruguay', '
 INSERT INTO `country_houses` (`id`, `country`, `name`) VALUES ('4', 'Colombia', 'Casa central de Colombia');
 
 --ACCOUNTS
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('1', 'contra123', '1', 'user_one', '1');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('2', 'contra123', '1', 'user_two', '2');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('3', 'contra123', '1', 'user_three', '3');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('4', 'contra123', '1', 'user_four', '4');
-INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`) VALUES ('5', 'contra123', '1', 'user_five', '4');
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`, `role_id`) VALUES ('1', 'contra123', '1', 'user_one', '1', 1);
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`, `role_id`) VALUES ('2', 'contra123', '1', 'user_two', '2', 1);
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`, `role_id`) VALUES ('3', 'contra123', '1', 'user_three', '3', 3);
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`, `role_id`) VALUES ('4', 'contra123', '1', 'user_four', '4', 3);
+INSERT INTO `accounts` (`id`, `password`, `rol`, `username`, `id_country_house_fk`, `role_id`) VALUES ('5', 'contra123', '1', 'user_five', '4', 2);
 
 --SELLER
 INSERT INTO `seller` (`id`) VALUES ('1');

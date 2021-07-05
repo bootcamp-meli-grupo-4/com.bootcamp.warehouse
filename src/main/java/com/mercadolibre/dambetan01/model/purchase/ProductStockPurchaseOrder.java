@@ -2,6 +2,7 @@ package com.mercadolibre.dambetan01.model.purchase;
 
 
 import com.mercadolibre.dambetan01.model.Product;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
