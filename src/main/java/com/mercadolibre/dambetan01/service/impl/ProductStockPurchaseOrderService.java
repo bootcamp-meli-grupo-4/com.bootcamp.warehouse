@@ -28,4 +28,9 @@ public class ProductStockPurchaseOrderService implements IProductStockPurchaseOr
     public BigDecimal calculateBillByPurchaseOrderId(Long purchaseOrderId) {
         return productStockPurchaseOrderRepository.calculateBillByPurchaseOrderId(purchaseOrderId);
     }
+
+    @Override
+    public Integer deleteAllByPurchaseOrderId(Long purchaseOrderId) {
+        return productStockPurchaseOrderRepository.deleteAllByPurchaseOrderId(purchaseOrderId);
+    }
 }

@@ -1,5 +1,6 @@
 package com.mercadolibre.dambetan01.service.impl;
 
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.ProductStockPurchaseOrderMapper;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
@@ -57,6 +58,13 @@ public class ProductStockService implements IProductStockService {
         }
 
         return null;
+    }
+
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
+    public ProductStock incrementStock(Integer valueToIncrement, Long stockId) {
+        ProductStock productStock = productStockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("not found sotck with id " + stockId));
+        productStock.setCurrentQuantity(productStock.getCurrentQuantity() + valueToIncrement);
+        return productStockRepository.save(productStock);
     }
 
     private boolean hasEnoughProduct(List<ProductStock> productStocks, Integer minQuantity) {
