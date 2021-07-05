@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -40,5 +39,13 @@ public class OrderController {
     public ResponseEntity<?> createPurchaseOrder(@RequestBody @Valid CreatePurchaseOrderDTO createPurchaseOrderDTO, Authentication authentication) {
         Long buyerId = Long.parseLong((String)authentication.getPrincipal());
         return new ResponseEntity<>(purchaseOrderService.createPurchaseOrder(createPurchaseOrderDTO, buyerId), HttpStatus.CREATED);
+    }
+
+    @GetMapping("orders/{orderId}")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION  + "')")
+    public ResponseEntity<?> getOrderById(@PathVariable Long orderId, Authentication authentication){
+        Long buyerId = Long.parseLong((String)authentication.getPrincipal());
+
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(orderId, buyerId));
     }
 }

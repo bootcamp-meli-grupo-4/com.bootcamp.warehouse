@@ -4,7 +4,10 @@ import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderResponseDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.ProductPurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.response.ProductUnavailableResponseDTO;
+import com.mercadolibre.dambetan01.dtos.response.purchase.GetPurchaseOrderResponseDTO;
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.exceptions.ProductUnavailableException;
+import com.mercadolibre.dambetan01.mapper.GetPurchaseOrderResponseDTOMapper;
 import com.mercadolibre.dambetan01.mapper.PurchaseOrderMapper;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import com.mercadolibre.dambetan01.model.user.Buyer;
@@ -35,6 +38,8 @@ public class PurchaseOrderService implements IPurchaseOrderService {
 
     private final IBuyerService buyerService;
 
+    private final GetPurchaseOrderResponseDTOMapper purchaseOrderResponseDTOMapper;
+
     @Transactional
     public CreatePurchaseOrderResponseDTO createPurchaseOrder(CreatePurchaseOrderDTO createPurchaseOrderDTO, Long buyerId) {
         PurchaseOrder purchaseOrder = createNewPurchaseOrder(buyerId);
@@ -64,5 +69,19 @@ public class PurchaseOrderService implements IPurchaseOrderService {
         statusPurchaseOrder.setId(1L);
         Buyer buyer = buyerService.findById(buyerId);
         return purchaseOrderRepository.save(PurchaseOrderMapper.buildFrom(buyer, statusPurchaseOrder));
+    }
+
+    public GetPurchaseOrderResponseDTO getOrderById(Long orderId, Long buyerId){
+        PurchaseOrder purchaseOrder = this.findByIdAndBuyerId(orderId, buyerId);
+        BigDecimal bill = productStockPurchaseOrderService.calculateBillByPurchaseOrderId(purchaseOrder.getId());
+        GetPurchaseOrderResponseDTO dto = purchaseOrderResponseDTOMapper.modelToDto(purchaseOrder);
+        dto.setTotalPrice(bill);
+        return dto;
+    }
+
+    private PurchaseOrder findByIdAndBuyerId(Long orderId, Long buyerId){
+        return purchaseOrderRepository
+                .findByIdAndBuyerId(orderId, buyerId)
+                .orElseThrow(() -> new NotFoundException("User ["+buyerId+"] purchase order not found"));
     }
 }
