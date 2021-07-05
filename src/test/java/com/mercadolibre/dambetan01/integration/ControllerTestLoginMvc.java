@@ -65,4 +65,18 @@ public class ControllerTestLoginMvc extends ControllerTest {
         for (ResultMatcher matcher : expected)
             action.andExpect(matcher);
     }
+
+    protected void sendPutRequest(String path, Object content, ResultMatcher... expected) throws Exception {
+        ResultActions action = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .put(PATH + path)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsBytes(content))
+                        .header("Authorization", token)
+        )
+                .andDo(MockMvcResultHandlers.print());
+
+        for (ResultMatcher matcher : expected)
+            action.andExpect(matcher);
+    }
 }
