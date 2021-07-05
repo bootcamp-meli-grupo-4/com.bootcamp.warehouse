@@ -3,6 +3,8 @@ package com.mercadolibre.dambetan01.service.impl;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderResponseDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.ProductPurchaseOrderDTO;
+import com.mercadolibre.dambetan01.dtos.response.ProductUnavailableResponseDTO;
+import com.mercadolibre.dambetan01.exceptions.ProductUnavailableException;
 import com.mercadolibre.dambetan01.mapper.PurchaseOrderMapper;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import com.mercadolibre.dambetan01.model.user.Buyer;
@@ -14,10 +16,12 @@ import com.mercadolibre.dambetan01.service.IProductStockPurchaseOrderService;
 import com.mercadolibre.dambetan01.service.IProductStockService;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,17 +39,21 @@ public class PurchaseOrderService implements IPurchaseOrderService {
     public CreatePurchaseOrderResponseDTO createPurchaseOrder(CreatePurchaseOrderDTO createPurchaseOrderDTO, Long buyerId) {
         PurchaseOrder purchaseOrder = createNewPurchaseOrder(buyerId);
 
+        List<ProductUnavailableResponseDTO> productsUnavailable = new ArrayList<>();
+
         for (ProductPurchaseOrderDTO productPurchaseOrderDTO : createPurchaseOrderDTO.getProducts()) {
             List<ProductStockPurchaseOrder> productStockPurchaseOrders = productStockService
                     .decrementByProduct(productPurchaseOrderDTO.getQuantity(), productPurchaseOrderDTO.getProductId(), purchaseOrder
             );
 
             if(productStockPurchaseOrders == null) {
-                throw new RuntimeException("Nao ha quantidade suficiente do produto");
+                productsUnavailable.add(new ProductUnavailableResponseDTO(productPurchaseOrderDTO.getProductId()));
             } else if(productStockPurchaseOrders.size() > 0) {
                 productStockPurchaseOrderService.saveAll(productStockPurchaseOrders);
             }
         }
+
+        if(productsUnavailable.size() > 0) throw new ProductUnavailableException("product unavailable", HttpStatus.BAD_REQUEST, productsUnavailable);
 
         BigDecimal bill = productStockPurchaseOrderService.calculateBillByPurchaseOrderId(purchaseOrder.getId());
         return new CreatePurchaseOrderResponseDTO(bill);
