@@ -1,116 +1,90 @@
 package com.mercadolibre.dambetan01.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mercadolibre.dambetan01.controller.OrderController;
-import com.mercadolibre.dambetan01.dtos.OrderDto;
-import com.mercadolibre.dambetan01.dtos.ProductStockDto;
-import com.mercadolibre.dambetan01.dtos.SectorDto;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
+import com.mercadolibre.dambetan01.dtos.purchase.EditPurchaseOrderDTO;
+import com.mercadolibre.dambetan01.dtos.purchase.ProductPurchaseOrderDTO;
+import org.junit.jupiter.api.*;
+
+import org.springframework.test.web.servlet.ResultMatcher;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc
-public class OrderControllerTest extends ControllerTest {
+public class OrderControllerTest extends ControllerTestLoginMvc {
 
-    private static final String PATH = "/api/v1";
-
-    @Autowired
-    private MockMvc mockMvc;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Test
-    public void createANewOrderTest() throws Exception {
-        OrderDto orderDto = new OrderDto();
-
-        orderDto.setOrderDate(LocalDate.now());
-        SectorDto section = new SectorDto();
-        section.setSectionCode(2L);
-        section.setWarehouseCode(2L);
-        orderDto.setSection(section);
-
-        orderDto.setBatchStock(List.of(
-                ProductStockDto.builder()
-                        .productId(10L)
-                        .currentTemperature(300.)
-                        .minimumTemperature(4230.)
-                        .initialQuantity(1)
-                        .manufacturingDate(LocalDate.of(2021,2,1))
-                        .manufacturingTime(LocalDateTime.of(2021,2,1, 2,5,41))
-                        .dueDate(LocalDate.of(2021,2,1))
-                        .build(),
-                ProductStockDto.builder()
-                        .productId(9L)
-                        .currentTemperature(200.)
-                        .minimumTemperature(2.)
-                        .initialQuantity(1)
-                        .manufacturingDate(LocalDate.of(2021,2,1))
-                        .manufacturingTime(LocalDateTime.of(2021,2,1, 2,5,41))
-                        .dueDate(LocalDate.of(2021,2,1))
-                        .build()
-        ));
-
-        ResultMatcher resultMatcher = status().isCreated();
-
-
-        ResultActions action = mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post(PATH + "/fresh-products/inboundorder/?idRepresentant=3")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(orderDto))
-        ).andDo(MockMvcResultHandlers.print());
-        action.andExpect(resultMatcher);
+    @BeforeEach
+    public void setupToken() throws Exception {
+        token = getToken("user_five", "contra123");
     }
 
     @Test
-    public void modifyAOrderTest() throws Exception {
-        OrderDto orderDto = new OrderDto();
-
-        orderDto.setOrderDate(LocalDate.now());
-        SectorDto section = new SectorDto();
-        section.setSectionCode(2L);
-        section.setWarehouseCode(2L);
-        orderDto.setSection(section);
-
-        orderDto.setBatchStock(List.of(
-                ProductStockDto.builder()
-                        .productId(9L)
-                        .currentTemperature(300.)
-                        .minimumTemperature(1.)
-                        .initialQuantity(1)
-                        .manufacturingDate(LocalDate.of(2021,2,1))
-                        .manufacturingTime(LocalDateTime.of(2021,2,1, 2,5,41))
-                        .dueDate(LocalDate.of(2021,2,1))
-                        .build()
+    public void do_purchase_order_return_201() throws Exception {
+        CreatePurchaseOrderDTO createPurchaseOrderDTO = new CreatePurchaseOrderDTO();
+        createPurchaseOrderDTO.setDate(LocalDate.now());
+        createPurchaseOrderDTO.setProducts(List.of(
+                new ProductPurchaseOrderDTO(1L, 6),
+                new ProductPurchaseOrderDTO(2L, 2)
         ));
-
         ResultMatcher resultMatcher = status().isCreated();
+        sendPostRequest("/fresh-products/orders", createPurchaseOrderDTO, resultMatcher);
+    }
 
+    @Test
+    public void do_purchase_order_with_unavailable_product_return_400() throws Exception {
+        CreatePurchaseOrderDTO createPurchaseOrderDTO = new CreatePurchaseOrderDTO();
+        createPurchaseOrderDTO.setDate(LocalDate.now());
+        createPurchaseOrderDTO.setProducts(List.of(
+                new ProductPurchaseOrderDTO(1L, 11),
+                new ProductPurchaseOrderDTO(2L, 2)
+        ));
+        ResultMatcher resultMatcher = status().isBadRequest();
+        sendPostRequest("/fresh-products/orders", createPurchaseOrderDTO, resultMatcher);
+    }
 
-        ResultActions action = mockMvc.perform(
-                MockMvcRequestBuilders
-                        .post(PATH + "/fresh-products/inboundorder/?idRepresentant=3")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsBytes(orderDto))
-        ).andDo(MockMvcResultHandlers.print());
-        action.andExpect(resultMatcher);
+    @Test
+    @Order(3)
+    public void edit_purchase_order_return_200() throws Exception {
+        EditPurchaseOrderDTO editPurchaseOrderDTO = new EditPurchaseOrderDTO();
+        editPurchaseOrderDTO.setProducts(List.of(
+                new ProductPurchaseOrderDTO(1L, 9),
+                new ProductPurchaseOrderDTO(2L, 2)
+        ));
+        ResultMatcher resultMatcher = status().isOk();
+        sendPutRequest("/fresh-products/orders/" + 1, editPurchaseOrderDTO, resultMatcher);
+    }
+
+    @Test
+    @Order(4)
+    public void edit_purchase_order_with_unavailable_product_return_400() throws Exception {
+        EditPurchaseOrderDTO editPurchaseOrderDTO = new EditPurchaseOrderDTO();
+        editPurchaseOrderDTO.setProducts(List.of(
+                new ProductPurchaseOrderDTO(16L, 11),
+                new ProductPurchaseOrderDTO(2L, 2)
+        ));
+        ResultMatcher resultMatcher = status().isBadRequest();
+        sendPutRequest("/fresh-products/orders/" + 1, editPurchaseOrderDTO, resultMatcher);
+    }
+
+    @Test
+    public void do_purchase_with_empty_product_list_return_400() throws Exception {
+        CreatePurchaseOrderDTO createPurchaseOrderDTO = new CreatePurchaseOrderDTO();
+        createPurchaseOrderDTO.setDate(LocalDate.now());
+        ResultMatcher resultMatcher = status().isBadRequest();
+        sendPostRequest("/fresh-products/orders", createPurchaseOrderDTO, resultMatcher);
+    }
+
+    @Test
+    public void do_get_purchase_order_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest("/fresh-products/orders/18", resultMatcher);
+    }
+
+    @Test
+    public void do_not_get_purchase_order_return_404() throws Exception {
+        ResultMatcher resultMatcher = status().isNotFound();
+        sendGetRequest("/fresh-products/orders/195", resultMatcher);
     }
 
 }

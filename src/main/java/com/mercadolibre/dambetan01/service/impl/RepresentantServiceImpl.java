@@ -1,8 +1,8 @@
 package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.exceptions.InvalidRepresentant;
-import com.mercadolibre.dambetan01.model.Representant;
 import com.mercadolibre.dambetan01.model.Warehouse;
+import com.mercadolibre.dambetan01.model.user.Representant;
 import com.mercadolibre.dambetan01.repository.RepresentantRepository;
 import com.mercadolibre.dambetan01.service.RepresentantService;
 import org.springframework.stereotype.Service;
