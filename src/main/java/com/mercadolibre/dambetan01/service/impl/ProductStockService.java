@@ -1,13 +1,14 @@
 package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.mapper.ProductStockPurchaseOrderMapper;
-import com.mercadolibre.dambetan01.model.purchase.ProductStock;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import com.mercadolibre.dambetan01.model.purchase.PurchaseOrder;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.IProductStockService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -28,7 +29,8 @@ public class ProductStockService implements IProductStockService {
         return productStockRepository.save(productStock);
     }
 
-    @Transactional
+    // Essa isolacao garante um lock nas linhas do select
+    @Transactional(isolation = Isolation.REPEATABLE_READ)
     public List<ProductStockPurchaseOrder> decrementByProduct(Integer valueToDecrement, Long productId, PurchaseOrder purchaseOrder) {
         List<ProductStock> productStocks = productStockRepository.findByProductId(productId);
 

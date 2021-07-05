@@ -6,7 +6,7 @@ import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.Order;
-import com.mercadolibre.dambetan01.model.purchase.ProductStock;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.model.Sector;
 import com.mercadolibre.dambetan01.repository.OrderRepository;
 import com.mercadolibre.dambetan01.service.OrderService;

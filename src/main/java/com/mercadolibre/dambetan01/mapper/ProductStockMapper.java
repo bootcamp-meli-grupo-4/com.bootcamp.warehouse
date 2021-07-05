@@ -1,7 +1,7 @@
 package com.mercadolibre.dambetan01.mapper;
 
 import com.mercadolibre.dambetan01.dtos.ProductStockDto;
-import com.mercadolibre.dambetan01.model.purchase.ProductStock;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.service.ProductService;
 import org.springframework.stereotype.Component;
 

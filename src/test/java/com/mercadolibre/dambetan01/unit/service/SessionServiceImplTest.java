@@ -4,6 +4,7 @@ import com.mercadolibre.dambetan01.dtos.response.AccountResponseDTO;
 import com.mercadolibre.dambetan01.exceptions.ApiException;
 import com.mercadolibre.dambetan01.model.user.Account;
 import com.mercadolibre.dambetan01.repository.AccountRepository;
+import com.mercadolibre.dambetan01.repository.RolePermissionRepository;
 import com.mercadolibre.dambetan01.service.impl.SessionServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,12 @@ import static org.mockito.Mockito.when;
 class SessionServiceImplTest {
 
     AccountRepository repository = Mockito.mock(AccountRepository.class);
+    RolePermissionRepository rolePermissionRepository = Mockito.mock(RolePermissionRepository.class);
     SessionServiceImpl service;
 
     @BeforeEach
     void setUp(){
-        this.service = new SessionServiceImpl(repository);
+        this.service = new SessionServiceImpl(repository, rolePermissionRepository);
     }
 
 
@@ -32,7 +34,7 @@ class SessionServiceImplTest {
 
     @Test
     void loginOk(){
-        Account account = new Account(null, "User", "Pass", null, null);
+        Account account = new Account(null, "User", "Pass", null, null, null);
         when(repository.findByUsernameAndPassword("User", "Pass")).thenReturn(account);
         AccountResponseDTO accountDTO = service.login("User","Pass");
         assertEquals("User", accountDTO.getUsername());

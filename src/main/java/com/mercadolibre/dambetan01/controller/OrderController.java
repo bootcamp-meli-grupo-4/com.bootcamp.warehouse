@@ -3,20 +3,24 @@ package com.mercadolibre.dambetan01.controller;
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
 import com.mercadolibre.dambetan01.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
-@Validated
 @RequestMapping(path = "/api/v1/fresh-products")
 public class OrderController {
 
@@ -31,6 +35,7 @@ public class OrderController {
     }
 
     @PostMapping("/orders")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION  + "')")
     public ResponseEntity<?> createPurchaseOrder(@RequestBody @Valid CreatePurchaseOrderDTO createPurchaseOrderDTO) {
         return new ResponseEntity<>(purchaseOrderService.createPurchaseOrder(createPurchaseOrderDTO, 5L), HttpStatus.CREATED);
     }

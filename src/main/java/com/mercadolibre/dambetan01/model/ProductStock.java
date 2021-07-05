@@ -1,7 +1,8 @@
-package com.mercadolibre.dambetan01.model.purchase;
+package com.mercadolibre.dambetan01.model;
 
 import com.mercadolibre.dambetan01.model.Order;
 import com.mercadolibre.dambetan01.model.Product;
+import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
