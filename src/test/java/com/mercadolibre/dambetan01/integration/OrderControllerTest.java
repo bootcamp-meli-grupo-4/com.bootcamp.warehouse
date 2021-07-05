@@ -72,7 +72,7 @@ public class OrderControllerTest extends ControllerTest {
 
         ResultActions action = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .post(PATH + "/fresh-products/inboundorder/")
+                        .post(PATH + "/fresh-products/inboundorder/?idRepresentant=3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(orderDto))
         ).andDo(MockMvcResultHandlers.print());
@@ -106,7 +106,7 @@ public class OrderControllerTest extends ControllerTest {
 
         ResultActions action = mockMvc.perform(
                 MockMvcRequestBuilders
-                        .post(PATH + "/fresh-products/inboundorder/")
+                        .post(PATH + "/fresh-products/inboundorder/?idRepresentant=3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsBytes(orderDto))
         ).andDo(MockMvcResultHandlers.print());
