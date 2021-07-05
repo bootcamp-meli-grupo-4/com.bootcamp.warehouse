@@ -83,6 +83,14 @@ INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (4,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,3);
 
 
+-- PURCHASE ORDER
+INSERT INTO `purchase_order` (`id`, `date`, `buyer_id`, `status_id`) VALUES ('1', '2001-01-01', '5', '1');
+
+
+-- PRODUCT STOCK PURCHASE ORDER
+INSERT INTO `product_stock_purchase_order` (`product_stock_id`, `purchase_order_id`, `bill`, `quantity`, `product_id`) VALUES ('1', '1', '100.00', '2', '1');
+INSERT INTO `product_stock_purchase_order` (`product_stock_id`, `purchase_order_id`, `bill`, `quantity`, `product_id`) VALUES ('2', '1', '50.00', '1', '1');
+
 
 
 
