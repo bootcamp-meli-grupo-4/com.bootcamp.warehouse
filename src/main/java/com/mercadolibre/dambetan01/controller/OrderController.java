@@ -13,16 +13,22 @@ import java.util.List;
 @RequestMapping(path = "/api/v1/fresh-products/inboundorder/")
 public class OrderController {
 
-    private OrderService orderService;
+    private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity createOrder(@RequestBody OrderDto orderDto){
         List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
     }
 
+    @PutMapping("/{orderNumber}")
+    public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@RequestBody OrderDto orderDto, @PathVariable Long orderNumber){
+        orderDto.setOrderNumber(orderNumber);
+        List<ProductStockResponseDto> productStockResponseDtos = orderService.modifyOrder(orderDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productStockResponseDtos);
+    }
 }
