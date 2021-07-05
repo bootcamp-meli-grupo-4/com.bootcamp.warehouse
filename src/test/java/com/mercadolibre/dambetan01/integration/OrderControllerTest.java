@@ -48,4 +48,16 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
         ResultMatcher resultMatcher = status().isBadRequest();
         sendPostRequest("/fresh-products/orders", createPurchaseOrderDTO, resultMatcher);
     }
+
+    @Test
+    public void do_get_purchase_order_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest("/fresh-products/orders/1", resultMatcher);
+    }
+
+    @Test
+    public void do_not_get_purchase_order_return_404() throws Exception {
+        ResultMatcher resultMatcher = status().isNotFound();
+        sendGetRequest("/fresh-products/orders/195", resultMatcher);
+    }
 }
