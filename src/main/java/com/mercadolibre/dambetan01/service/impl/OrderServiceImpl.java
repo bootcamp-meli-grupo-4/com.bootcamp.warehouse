@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,6 +36,17 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
+        Order order = getOrder(orderDto);
+
+        Order finalOrder = orderRepository.save(order);
+
+        List<ProductStock> productStocks = getProductStockByOrder(finalOrder);
+        productStockService.saveAll(productStocks);
+
+       return createListProductStockResponseByProductStock(order.getProductStocks());
+    }
+
+    private Order getOrder(OrderDto orderDto) {
         Order order = orderMapper.dtoToModel(orderDto);
 
         Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
@@ -46,13 +58,20 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setSector(sector);
+        return order;
+    }
 
-        Order finalOrder = orderRepository.save(order);
+    public List<ProductStockResponseDto> modifyOrder(OrderDto orderDto) {
+        Optional<Order> order = orderRepository.findById(orderDto.getOrderNumber());
 
-        List<ProductStock> productStocks = getProductStockByOrder(finalOrder);
-        productStockService.saveAll(productStocks);
+        if (order.isPresent()){
+            orderDto.getBatchStock().forEach(p -> p.setInitialQuantity(0));
+        }
+        Order orderUpdate = getOrder(orderDto);
 
-       return createListProductStockResponseByProductStock(order.getProductStocks());
+        Order save = orderRepository.save(orderUpdate);
+
+        return createListProductStockResponseByProductStock(save.getProductStocks());
     }
 
     private List<ProductStock> getProductStockByOrder(Order order){
