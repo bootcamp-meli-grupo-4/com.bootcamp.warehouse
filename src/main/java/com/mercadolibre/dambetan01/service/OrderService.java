@@ -6,5 +6,5 @@ import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import java.util.List;
 
 public interface OrderService {
-    List<ProductStockResponseDto> crateOrder(OrderDto orderDto);
+    List<ProductStockResponseDto> crateOrder(OrderDto orderDto, Long idRepresentant);
 }

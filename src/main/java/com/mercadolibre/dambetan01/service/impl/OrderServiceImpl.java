@@ -2,14 +2,12 @@ package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
-import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
-import com.mercadolibre.dambetan01.model.Order;
-import com.mercadolibre.dambetan01.model.ProductStock;
-import com.mercadolibre.dambetan01.model.Sector;
+import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.repository.OrderRepository;
 import com.mercadolibre.dambetan01.service.OrderService;
+import com.mercadolibre.dambetan01.service.RepresentantService;
 import com.mercadolibre.dambetan01.service.SectorService;
 import org.springframework.stereotype.Service;
 
@@ -23,49 +21,57 @@ public class OrderServiceImpl implements OrderService {
     private ProductStockResponseMapper productStockResponseMapper;
     private SectorService sectorService;
     private ProductStockServiceImpl productStockService;
+    private RepresentantService representantService;
 
-    public OrderServiceImpl(OrderRepository orderRepository, OrderMapper orderMapper,
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            OrderMapper orderMapper,
                             ProductStockResponseMapper productStockResponseMapper,
-                            SectorService sectorService, ProductStockServiceImpl productStockService) {
+                            SectorService sectorService,
+                            ProductStockServiceImpl productStockService,
+                            RepresentantService representantService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.productStockResponseMapper = productStockResponseMapper;
         this.sectorService = sectorService;
         this.productStockService = productStockService;
+        this.representantService = representantService;
     }
 
-    public List<ProductStockResponseDto> crateOrder(OrderDto orderDto) {
+    public List<ProductStockResponseDto> crateOrder(OrderDto orderDto, Long idRepresentant) {
+        Order order = checkOrderValues(orderDto, idRepresentant);
+
+        Order finalOrder = this.orderRepository.save(order);
+
+        List<ProductStock> productStocks = this.productStockService.addOrderOnProductStock(finalOrder);
+        this.productStockService.saveAll(productStocks);
+
+        return createListProductStockResponseByProductStock(productStocks);
+    }
+
+    private Order checkOrderValues(OrderDto orderDto, Long idRepresentant) {
         Order order = orderMapper.dtoToModel(orderDto);
 
-        Sector sector = sectorService.findById(orderDto.getSection().getSectionCode());
-        Long idWarehouse = orderDto.getSection().getWarehouseCode();
+        Long idSection =  orderDto.getSection().getSectionCode();
+        Long idWarehouse =  orderDto.getSection().getWarehouseCode();
+        Sector sector = this.sectorService.findBySectorAndWarehouse(idSection, idWarehouse);
 
-        if(!idWarehouse.equals(sector.getWarehouse().getId())){
-            throw new NotFoundException("Not found relationship between section["+sector.getId()+"]" +
-                    " and warehouse["+idWarehouse+"]");
-        }
+        Warehouse warehouse = sector.getWarehouse();
+        this.representantService.checkRelationBetweenRepresentantAndWarehouse(idRepresentant, warehouse);
+
+        List<ProductStock> productStocks = order.getProductStocks();
+        this.productStockService.checkCategoryProductAndSector(productStocks, sector.getCategory());
+
+        Integer quantity = this.productStockService.getQuantityProductsByProductStocks(productStocks);
+        this.sectorService.checkSectorSpace(sector, quantity);
 
         order.setSector(sector);
-
-        Order finalOrder = orderRepository.save(order);
-
-        List<ProductStock> productStocks = getProductStockByOrder(finalOrder);
-        productStockService.saveAll(productStocks);
-
-       return createListProductStockResponseByProductStock(order.getProductStocks());
-    }
-
-    private List<ProductStock> getProductStockByOrder(Order order){
-        List<ProductStock> productStocks = order.getProductStocks();
-        productStocks.forEach(productStock -> productStock.setCurrentQuantity(productStock.getInitialQuantity()));
-        productStocks.forEach(p -> p.setOrder(order));
-        return productStocks;
+        return order;
     }
 
     private List<ProductStockResponseDto> createListProductStockResponseByProductStock(List<ProductStock> productStocks) {
         List<ProductStockResponseDto> productStockResponseDtoList = new ArrayList<>();
         productStocks
-                .forEach(p-> productStockResponseDtoList.add(productStockResponseMapper.modelToDto(p)));
+                .forEach(p -> productStockResponseDtoList.add(this.productStockResponseMapper.modelToDto(p)));
         return productStockResponseDtoList;
     }
 }
