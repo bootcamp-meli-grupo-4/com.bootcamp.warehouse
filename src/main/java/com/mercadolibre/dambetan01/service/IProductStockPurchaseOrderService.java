@@ -11,4 +11,6 @@ public interface IProductStockPurchaseOrderService {
     List<ProductStockPurchaseOrder> saveAll(Iterable<ProductStockPurchaseOrder> productStockPurchaseOrders);
 
     BigDecimal calculateBillByPurchaseOrderId(Long purchaseOrderId);
+
+    Integer deleteAllByPurchaseOrderId(Long purchaseOrderId);
 }

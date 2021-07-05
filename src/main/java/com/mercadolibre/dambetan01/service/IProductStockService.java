@@ -14,4 +14,6 @@ public interface IProductStockService {
     ProductStock decrementFromProductStock(Integer valueToDecrement, ProductStock productStock);
 
     List<ProductStockPurchaseOrder> decrementByProduct(Integer valueToDecrement, Long productId, PurchaseOrder purchaseOrder);
+
+    ProductStock incrementStock(Integer valueToIncrement, Long stockId);
 }

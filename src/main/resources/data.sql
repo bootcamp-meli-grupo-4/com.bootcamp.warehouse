@@ -2,6 +2,7 @@
 INSERT INTO `permission`(`id`,`name`) VALUES (1, 'REGISTER_STOCK_PERMISSION');
 INSERT INTO `permission`(`id`,`name`) VALUES (2, 'BUY_PRODUCT_PERMISSION');
 INSERT INTO `permission`(`id`,`name`) VALUES (3, 'AUTHENTICATED_USER_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (4, 'EDIT_PURCHASE_ORDER_PERMISSION');
 
 --ROLE
 INSERT INTO `role`(`id`,`name`) VALUES(1,'SELLER');
@@ -14,6 +15,7 @@ INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 2); -- BUYER 
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 3); -- SELLER HAS AUTHENTICATED_USER_PERMISSION
 
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(2, 2); -- BUYER HAS BUY_PRODUCT_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(4, 2); -- BUYER HAS EDIT_PURCHASE_ORDER_PERMISSION
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(1, 3); -- REPRESENTANT HAS REGISTER_STOCK_PERMISSION
 
 --STATUS PURCHASE ORDER
