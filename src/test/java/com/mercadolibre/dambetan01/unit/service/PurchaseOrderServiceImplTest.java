@@ -3,7 +3,10 @@ package com.mercadolibre.dambetan01.unit.service;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderResponseDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.ProductPurchaseOrderDTO;
+import com.mercadolibre.dambetan01.dtos.response.purchase.GetPurchaseOrderResponseDTO;
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.exceptions.ProductUnavailableException;
+import com.mercadolibre.dambetan01.mapper.GetPurchaseOrderResponseDTOMapper;
 import com.mercadolibre.dambetan01.mapper.PurchaseOrderMapper;
 import com.mercadolibre.dambetan01.model.purchase.ProductStockPurchaseOrder;
 import com.mercadolibre.dambetan01.model.purchase.PurchaseOrder;
@@ -22,6 +25,7 @@ import org.mockito.Mockito;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +41,8 @@ public class PurchaseOrderServiceImplTest {
 
     PurchaseOrderRepository purchaseOrderRepository = Mockito.mock(PurchaseOrderRepository.class);
 
+    GetPurchaseOrderResponseDTOMapper getPurchaseOrderResponseDTOMapper = Mockito.mock(GetPurchaseOrderResponseDTOMapper.class);
+
     PurchaseOrderService purchaseOrderService;
 
     CreatePurchaseOrderDTO createPurchaseOrderDTO;
@@ -46,7 +52,8 @@ public class PurchaseOrderServiceImplTest {
         purchaseOrderService = new PurchaseOrderService(purchaseOrderRepository,
                 productStockService,
                 productStockPurchaseOrderService,
-                buyerService);
+                buyerService,
+                getPurchaseOrderResponseDTOMapper);
         when(buyerService.findById(5L)).thenReturn(
                 createBuyer(5L)
         );
@@ -101,5 +108,39 @@ public class PurchaseOrderServiceImplTest {
         StatusPurchaseOrder statusPurchaseOrder = new StatusPurchaseOrder();
         statusPurchaseOrder.setId(1L);
         return PurchaseOrderMapper.buildFrom(buyer, statusPurchaseOrder);
+    }
+
+    @Test
+    public void shouldGetOrderByIdCorrectly(){
+        Long orderId = 1L;
+        Long buyerId = 5L;
+        BigDecimal price = BigDecimal.valueOf(150.00);
+        PurchaseOrder purchaseOrder = createPurchaseOrder(createBuyer(buyerId));
+        purchaseOrder.setId(1L);
+        GetPurchaseOrderResponseDTO response = new GetPurchaseOrderResponseDTO();
+        when(purchaseOrderRepository.findByIdAndBuyerId(orderId, buyerId)).thenReturn(Optional.of(purchaseOrder));
+        when(productStockPurchaseOrderService.calculateBillByPurchaseOrderId(orderId)).thenReturn(price);
+        when(getPurchaseOrderResponseDTOMapper.modelToDto(purchaseOrder)).thenReturn(response);
+        GetPurchaseOrderResponseDTO dtoResponse = purchaseOrderService.getOrderById(orderId, buyerId);
+        assertNotNull(dtoResponse);
+        assertEquals(price, dtoResponse.getTotalPrice());
+    }
+
+    @Test
+    public void shouldNotGetOrderByIdCorrectly(){
+        Long orderId = 1L;
+        Long buyerId = 5L;
+        PurchaseOrder purchaseOrder = createPurchaseOrder(createBuyer(buyerId));
+        purchaseOrder.setId(1L);
+        when(purchaseOrderRepository.findByIdAndBuyerId(orderId, buyerId)).thenReturn(Optional.empty());
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            purchaseOrderService.getOrderById(orderId, buyerId);
+        });
+
+
+        String expectedMessage = "Not Found Exception. User ["+buyerId+"] purchase order not found";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
     }
 }

@@ -66,6 +66,18 @@ public class ControllerTestLoginMvc extends ControllerTest {
             action.andExpect(matcher);
     }
 
+    protected void sendGetRequest(String path, ResultMatcher... expected) throws Exception {
+        ResultActions action = mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get(PATH + path)
+                        .header("Authorization", token)
+        )
+                .andDo(MockMvcResultHandlers.print());
+
+        for (ResultMatcher matcher : expected)
+            action.andExpect(matcher);
+    }
+
     protected void sendPutRequest(String path, Object content, ResultMatcher... expected) throws Exception {
         ResultActions action = mockMvc.perform(
                 MockMvcRequestBuilders
