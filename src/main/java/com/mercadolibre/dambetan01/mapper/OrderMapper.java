@@ -3,6 +3,7 @@ package com.mercadolibre.dambetan01.mapper;
 import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.model.Order;
 import com.mercadolibre.dambetan01.model.ProductStock;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,12 +11,9 @@ import java.util.List;
 
 
 @Component
+@RequiredArgsConstructor
 public class OrderMapper implements MapperDtoToModel<Order, OrderDto>{
-    private ProductStockMapper productStockMapper;
-
-    public OrderMapper(ProductStockMapper productStockMapper) {
-        this.productStockMapper = productStockMapper;
-    }
+    private final ProductStockMapper productStockMapper;
 
     @Override
     public Order dtoToModel(OrderDto dto) {
