@@ -1,13 +1,10 @@
 package com.mercadolibre.dambetan01.controller;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.EditPurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.response.ProductByWarehouseDTO;
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
-import com.mercadolibre.dambetan01.service.OrderService;
 import com.mercadolibre.dambetan01.service.IWarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,36 +15,15 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "/api/v1/fresh-products")
 public class OrderController {
-
-    private final OrderService orderService;
-
     private final IPurchaseOrderService purchaseOrderService;
 
     private final IWarehouseService warehouseService;
-
-    @PostMapping("/inboundorder")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
-    public ResponseEntity createOrder(@Valid @RequestBody OrderDto orderDto,  Authentication authentication){
-        Long representantId = Long.parseLong((String)authentication.getPrincipal());
-        List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto, representantId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
-    }
-
-    @PutMapping("/inboundorder/{orderNumber}")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
-    public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Long orderNumber, Authentication authentication){
-        orderDto.setOrderNumber(orderNumber);
-        Long representantId = Long.parseLong((String)authentication.getPrincipal());
-        List<ProductStockResponseDto> productStockResponseDtos = orderService.modifyOrder(orderDto, representantId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productStockResponseDtos);
-    }
 
     @PostMapping("/orders")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION + "')")

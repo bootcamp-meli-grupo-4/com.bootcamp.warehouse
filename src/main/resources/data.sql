@@ -96,7 +96,7 @@ INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_
 
 
 -- PURCHASE ORDER
-INSERT INTO `purchase_order` (`id`, `date`, `buyer_id`, `status_id`) VALUES ('1', '2001-01-01', '5', '1');
+INSERT INTO `purchase_order` (`id`, `date`, `buyer_id`, `status_id`) VALUES ('1', '2001-01-01', '6', '1');
 
 
 -- PRODUCT STOCK PURCHASE ORDER
