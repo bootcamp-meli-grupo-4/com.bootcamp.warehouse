@@ -72,19 +72,27 @@ INSERT INTO `product` (`id`, `name`, `seller_id`, `category_id`, `price`) VALUES
 INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('1', '3');
 INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('2', '3');
 
---SECTORS
+--SECTORS W1
 INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('1', '1', '1', 0, 10000);
+
+--SECTORS W2
 INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('2', '2', '2', 0, 15000);
 INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('3', '3', '2', 0, 17000);
 
--- ORDERS
+-- ORDERS W1
 INSERT INTO `orders` (`id`,`order_date`,`sector_id`) VALUES (1,'2021-08-01',1);
 
--- PRODUCTS STOCK
+-- ORDERS W2
+INSERT INTO `orders` (`id`,`order_date`,`sector_id`) VALUES (2,'2021-08-01',2);
+
+-- PRODUCTS STOCK W1
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (1,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,1);
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (2,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,1);
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (3,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,2);
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (4,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,3);
+
+-- PRODUCTS STOCK W2
+INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (5,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,2,3);
 
 
 -- PURCHASE ORDER
