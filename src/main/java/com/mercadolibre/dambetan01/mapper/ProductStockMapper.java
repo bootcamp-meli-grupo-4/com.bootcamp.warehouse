@@ -3,16 +3,16 @@ package com.mercadolibre.dambetan01.mapper;
 import com.mercadolibre.dambetan01.dtos.ProductStockDto;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ProductStockMapper implements MapperDtoToModel<ProductStock, ProductStockDto>,
         MapperModelToDto<ProductStock, ProductStockDto>{
-    private ProductService productService;
 
-    public ProductStockMapper(ProductService productService) {
-        this.productService = productService;
-    }
+    private final ProductService productService;
+
 
     @Override
     public ProductStock dtoToModel(ProductStockDto dto) {
