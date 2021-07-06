@@ -44,6 +44,9 @@ public class ProductStockMapperTest {
     @Test
     public void shouldConvertModelToDtoCorrectly(){
         ProductStock model = new ProductStock();
+        Product p = new Product();
+        p.setId(1L);
+        model.setProduct(p);
         model.setCurrentQuantity(3);
         model.setId(1L);
         model.setManufacturingTime(LocalDateTime.now());

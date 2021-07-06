@@ -2,6 +2,7 @@ package com.mercadolibre.dambetan01.unit.mapper;
 
 import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
+import com.mercadolibre.dambetan01.model.Product;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,6 +22,9 @@ public class ProductStockResponseMapperTest {
     @Test
     public void shouldConvertModelToDtoCorrectly(){
         ProductStock model = new ProductStock();
+        Product p = new Product();
+        p.setId(1L);
+        model.setProduct(p);
         model.setDueDate(LocalDate.now());
         model.setCurrentQuantity(12);
         model.setCurrentTemperature(32d);
