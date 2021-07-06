@@ -52,7 +52,7 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
                 new ProductPurchaseOrderDTO(2L, 2)
         ));
         ResultMatcher resultMatcher = status().isOk();
-        sendPutRequest("/fresh-products/orders/" + 1, editPurchaseOrderDTO, resultMatcher);
+        sendPutRequest("/fresh-products/orders/" + 2, editPurchaseOrderDTO, resultMatcher);
     }
 
     @Test
@@ -64,7 +64,7 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
                 new ProductPurchaseOrderDTO(2L, 2)
         ));
         ResultMatcher resultMatcher = status().isBadRequest();
-        sendPutRequest("/fresh-products/orders/" + 1, editPurchaseOrderDTO, resultMatcher);
+        sendPutRequest("/fresh-products/orders/" + 2, editPurchaseOrderDTO, resultMatcher);
     }
 
     @Test
@@ -76,9 +76,10 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
     }
 
     @Test
+    @Order(5)
     public void do_get_purchase_order_return_200() throws Exception {
         ResultMatcher resultMatcher = status().isOk();
-        sendGetRequest("/fresh-products/orders/18", resultMatcher);
+        sendGetRequest("/fresh-products/orders/"+2, resultMatcher);
     }
 
     @Test
