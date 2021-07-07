@@ -42,18 +42,17 @@ public class ProductStockServiceImpl implements ProductStockService {
                 .filter(Objects::nonNull)
                 .reduce(Integer::sum);
 
-        if (quantity.isEmpty()) {
+        if (quantity.isEmpty() || quantity.get() == 0 ) {
             quantity = productStocks.stream()
                     .map(ProductStock::getCurrentQuantity)
                     .filter(Objects::nonNull)
                     .reduce(Integer::sum);
         }
-        return quantity.get();
+        return quantity.orElse(0);
     }
 
     public List<ProductStock> addOrderOnProductStock(Order order) {
         List<ProductStock> productStocks = order.getProductStocks();
-        productStocks.forEach(productStock -> productStock.setCurrentQuantity(productStock.getInitialQuantity()));
         productStocks.forEach(p -> p.setOrder(order));
         return productStocks;
     }

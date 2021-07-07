@@ -34,7 +34,6 @@ public class Sector {
     @Column(name = "quantity_max")
     private Long quantityMax;
 
-    @Version
     @Column(name = "current_quantity")
     private Long currentQuantity;
 }

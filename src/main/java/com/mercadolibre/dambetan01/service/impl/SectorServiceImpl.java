@@ -36,4 +36,19 @@ public class SectorServiceImpl implements SectorService {
                         new NotFoundException("Not found relationship between section[" + idSector + "]" +
                 " and warehouse[" + idWarehouse + "]"));
     }
+
+    private Long sumCurrentQuantity(Long sectorId) {
+        return repository.sumCurrentQuantity(sectorId);
+    }
+
+    private Sector save(Sector sector){
+        return repository.save(sector);
+    }
+
+    @Override
+    public Sector updateCurrentQuantity(Sector sector) {
+        Long currentQuantity = this.sumCurrentQuantity(sector.getId());
+        sector.setCurrentQuantity(currentQuantity);
+        return this.save(sector);
+    }
 }
