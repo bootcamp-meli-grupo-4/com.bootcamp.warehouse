@@ -2,7 +2,9 @@ package com.mercadolibre.dambetan01.unit.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.ProductListDTO;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
+import com.mercadolibre.dambetan01.model.Order;
 import com.mercadolibre.dambetan01.model.Product;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.repository.ProductRepository;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.impl.ProductServiceImpl;
