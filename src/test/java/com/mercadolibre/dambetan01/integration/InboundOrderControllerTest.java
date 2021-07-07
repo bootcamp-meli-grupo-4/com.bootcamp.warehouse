@@ -1,8 +1,6 @@
 package com.mercadolibre.dambetan01.integration;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
-import com.mercadolibre.dambetan01.dtos.ProductStockDto;
-import com.mercadolibre.dambetan01.dtos.SectorDto;
+import com.mercadolibre.dambetan01.dtos.inbound.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -21,7 +19,7 @@ public class InboundOrderControllerTest extends ControllerTestLoginMvc{
 
     @Test
     public void createANewOrderTest() throws Exception {
-        OrderDto orderDto = new OrderDto();
+        PostOrderDto orderDto = new PostOrderDto();
 
         orderDto.setOrderDate(LocalDate.now());
         SectorDto section = new SectorDto();
@@ -30,7 +28,7 @@ public class InboundOrderControllerTest extends ControllerTestLoginMvc{
         orderDto.setSection(section);
 
         orderDto.setBatchStock(List.of(
-                ProductStockDto.builder()
+                PostProductStockDto.builder()
                         .productId(10L)
                         .currentTemperature(300.)
                         .minimumTemperature(4230.)
@@ -39,7 +37,7 @@ public class InboundOrderControllerTest extends ControllerTestLoginMvc{
                         .manufacturingTime(LocalDateTime.of(2021,2,1, 2,5,41))
                         .dueDate(LocalDate.of(2021,2,1))
                         .build(),
-                ProductStockDto.builder()
+                PostProductStockDto.builder()
                         .productId(9L)
                         .currentTemperature(200.)
                         .minimumTemperature(2.)
@@ -64,7 +62,7 @@ public class InboundOrderControllerTest extends ControllerTestLoginMvc{
         section.setSectionCode(2L);
         section.setWarehouseCode(2L);
         orderDto.setSection(section);
-
+        orderDto.setOrderNumber(1L);
         orderDto.setBatchStock(List.of(
                 ProductStockDto.builder()
                         .productId(9L)
@@ -79,7 +77,7 @@ public class InboundOrderControllerTest extends ControllerTestLoginMvc{
 
         ResultMatcher resultMatcher = status().isCreated();
 
-        sendPostRequest("/fresh-products/inboundorder/", orderDto, resultMatcher);
+        sendPutRequest("/fresh-products/inboundorder/"+1, orderDto, resultMatcher);
 
     }
 }

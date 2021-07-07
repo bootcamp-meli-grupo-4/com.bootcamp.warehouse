@@ -1,8 +1,5 @@
-package com.mercadolibre.dambetan01.dtos;
+package com.mercadolibre.dambetan01.dtos.inbound;
 
-
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,10 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Validated
 @Builder
-public class ProductStockDto {
-
-    @JsonProperty("batchNumber")
-    private Long batchNumber;
+public class PostProductStockDto {
 
     @JsonProperty("currentTemperature")
     @NotNull(message = "currentTemperature is required")
@@ -34,25 +28,19 @@ public class ProductStockDto {
     private Double minimumTemperature;
 
     @JsonProperty("initialQuantity")
+    @NotNull(message = "initialQuantity is required")
     @Range(min = 1, message = "initialQuantity must start at 1")
     private Integer initialQuantity;
 
-    @JsonProperty("currentQuantity")
-    @Range(min = 1, message = "currentQuantity must start at 1")
-    private Integer currentQuantity;
-
     @JsonProperty("manufacturingDate")
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     @NotNull(message = "manufacturingDate is required")
     private LocalDate manufacturingDate;
 
     @JsonProperty("manufacturingTime")
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss", shape = JsonFormat.Shape.STRING)
     @NotNull(message = "manufacturingTime is required")
     private LocalDateTime manufacturingTime;
 
     @JsonProperty("dueDate")
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     @NotNull(message = "dueDate is required")
     private LocalDate dueDate;
 

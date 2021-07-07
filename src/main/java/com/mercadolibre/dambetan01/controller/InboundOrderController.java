@@ -1,7 +1,8 @@
 package com.mercadolibre.dambetan01.controller;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.dtos.inbound.OrderDto;
+import com.mercadolibre.dambetan01.dtos.inbound.PostOrderDto;
+import com.mercadolibre.dambetan01.dtos.response.inbound.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class InboundOrderController {
 
     @PostMapping("/inboundorder")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
-    public ResponseEntity createOrder(@Valid @RequestBody OrderDto orderDto, Authentication authentication){
+    public ResponseEntity createOrder(@Valid @RequestBody PostOrderDto orderDto, Authentication authentication){
         Long representantId = Long.parseLong((String)authentication.getPrincipal());
         List<ProductStockResponseDto> dtos = orderService.crateOrder(orderDto, representantId);
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);

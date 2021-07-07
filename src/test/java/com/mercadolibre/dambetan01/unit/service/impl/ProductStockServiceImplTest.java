@@ -3,17 +3,18 @@ package com.mercadolibre.dambetan01.unit.service.impl;
 import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
 import com.mercadolibre.dambetan01.model.Category;
 import com.mercadolibre.dambetan01.model.Order;
+import com.mercadolibre.dambetan01.model.Product;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.impl.ProductStockServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mercadolibre.dambetan01.util.GenerateMock.createProductStockToPost;
-import static com.mercadolibre.dambetan01.util.GenerateMock.createProductStockToPut;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -83,5 +84,44 @@ public class ProductStockServiceImplTest {
         order.setId(1l);
         List<ProductStock> result = service.addOrderOnProductStock(order);
         assertEquals(order, result.get(0).getOrder());
+    }
+
+
+    public static ProductStock createProductStockToPost(){
+        ProductStock p1 = new ProductStock();
+        Product product = new Product();
+        Category category = new Category();
+        category.setName("Congelados");
+        category.setId(1l);
+        product.setCategory(category);
+
+        p1.setManufacturingTime(LocalDateTime.now());
+        p1.setManufacturingDate(LocalDate.now());
+        p1.setMinimumTemperature(1d);
+        p1.setInitialQuantity(1);
+        p1.setCurrentTemperature(2d);
+        p1.setDueDate(LocalDate.now());
+        p1.setProduct(product);
+
+        return p1;
+    }
+
+    public ProductStock createProductStockToPut(){
+        ProductStock p1 = new ProductStock();
+        Product product = new Product();
+        Category category = new Category();
+        category.setName("Frios");
+        category.setId(2l);
+        product.setCategory(category);
+
+        p1.setManufacturingTime(LocalDateTime.now());
+        p1.setManufacturingDate(LocalDate.now());
+        p1.setMinimumTemperature(1d);
+        p1.setCurrentQuantity(9);
+        p1.setCurrentTemperature(2d);
+        p1.setDueDate(LocalDate.now());
+        p1.setProduct(product);
+
+        return p1;
     }
 }

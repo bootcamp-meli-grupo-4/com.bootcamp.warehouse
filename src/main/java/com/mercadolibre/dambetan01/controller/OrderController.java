@@ -1,12 +1,9 @@
 package com.mercadolibre.dambetan01.controller;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.EditPurchaseOrderDTO;
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
-import com.mercadolibre.dambetan01.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Validated
 @RestController
