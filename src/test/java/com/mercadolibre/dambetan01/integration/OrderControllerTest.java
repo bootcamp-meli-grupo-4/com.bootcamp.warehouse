@@ -87,16 +87,4 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
         ResultMatcher resultMatcher = status().isNotFound();
         sendGetRequest("/fresh-products/orders/195", resultMatcher);
     }
-
-    @Test
-    public void do_get_product_by_warehouse_return_200() throws Exception {
-        ResultMatcher resultMatcher = status().isOk();
-        sendGetRequest("/fresh-products/warehouse/1", resultMatcher);
-    }
-
-    @Test
-    public void do_get_product_that_does_not_exist_by_warehouse_return_404() throws Exception {
-        ResultMatcher resultMatcher = status().isNotFound();
-        sendGetRequest("/fresh-products/warehouse/111", resultMatcher);
-    }
 }

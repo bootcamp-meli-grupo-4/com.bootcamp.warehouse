@@ -2,10 +2,8 @@ package com.mercadolibre.dambetan01.controller;
 
 import com.mercadolibre.dambetan01.dtos.purchase.CreatePurchaseOrderDTO;
 import com.mercadolibre.dambetan01.dtos.purchase.EditPurchaseOrderDTO;
-import com.mercadolibre.dambetan01.dtos.response.ProductByWarehouseDTO;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.IPurchaseOrderService;
-import com.mercadolibre.dambetan01.service.IWarehouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,6 @@ import javax.validation.Valid;
 @RequestMapping(path = "/api/v1/fresh-products")
 public class OrderController {
     private final IPurchaseOrderService purchaseOrderService;
-
-    private final IWarehouseService warehouseService;
 
     @PostMapping("/orders")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION + "')")
@@ -48,10 +44,5 @@ public class OrderController {
         Long buyerId = Long.parseLong((String)authentication.getPrincipal());
 
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(orderId, buyerId));
-    }
-
-    @GetMapping("/warehouse/{productId}")
-    public ProductByWarehouseDTO getProductByWarehouse(@PathVariable Long productId) {
-        return warehouseService.findTotalProductByWarehouse(productId);
     }
 }
