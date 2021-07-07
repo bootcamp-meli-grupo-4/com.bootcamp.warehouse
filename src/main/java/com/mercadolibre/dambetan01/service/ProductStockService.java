@@ -1,9 +1,11 @@
 package com.mercadolibre.dambetan01.service;
 
+import com.mercadolibre.dambetan01.dtos.ProductDueDateDTO;
 import com.mercadolibre.dambetan01.model.Category;
 import com.mercadolibre.dambetan01.model.Order;
 import com.mercadolibre.dambetan01.model.ProductStock;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ProductStockService {
@@ -14,4 +16,6 @@ public interface ProductStockService {
     public Integer getQuantityProductsByProductStocks(List<ProductStock> productStocks);
 
     List<ProductStock> addOrderOnProductStock(Order order);
+
+    List<ProductDueDateDTO> findAllProductStockDueDateBySector(Integer daysFuture, Long idSector, Long idRepresentant);
 }

@@ -1,13 +1,16 @@
 package com.mercadolibre.dambetan01.service.impl;
 
+import com.mercadolibre.dambetan01.dtos.ProductDueDateDTO;
 import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
-import com.mercadolibre.dambetan01.model.Category;
-import com.mercadolibre.dambetan01.model.Order;
-import com.mercadolibre.dambetan01.model.ProductStock;
+import com.mercadolibre.dambetan01.exceptions.NotFoundException;
+import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.ProductStockService;
+import com.mercadolibre.dambetan01.service.RepresentantService;
+import com.mercadolibre.dambetan01.service.SectorService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -15,9 +18,13 @@ import java.util.Optional;
 @Service
 public class ProductStockServiceImpl implements ProductStockService {
     private final ProductStockRepository repository;
+    private final SectorService sectorService;
+    private final RepresentantService representantService;
 
-    public ProductStockServiceImpl(ProductStockRepository repository) {
+    public ProductStockServiceImpl(ProductStockRepository repository, SectorServiceImpl sectorService, RepresentantService representantService) {
         this.repository = repository;
+        this.sectorService = sectorService;
+        this.representantService = representantService;
     }
 
     @Override
@@ -57,4 +64,23 @@ public class ProductStockServiceImpl implements ProductStockService {
         productStocks.forEach(p -> p.setOrder(order));
         return productStocks;
     }
+
+    @Override
+    public List<ProductDueDateDTO> findAllProductStockDueDateBySector(Integer daysFuture, Long idSector, Long idRepresentant) {
+
+        LocalDate today = LocalDate.now();
+        LocalDate dateDaysFuture = today.plusDays(daysFuture);
+
+
+        Sector sector = this.sectorService.findById(idSector);
+        this.representantService.checkRelationBetweenRepresentantAndWarehouse(idRepresentant, sector.getWarehouse());
+
+
+        List<ProductDueDateDTO> productStockList = repository.findAllProductStockDueDate(dateDaysFuture, idSector);
+
+        if (productStockList.size() == 0) throw new NotFoundException("Not found products in sector");
+
+        return productStockList;
+    }
+
 }
