@@ -11,9 +11,11 @@ import com.mercadolibre.dambetan01.service.SectorService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductStockServiceImpl implements ProductStockService {
@@ -71,14 +73,41 @@ public class ProductStockServiceImpl implements ProductStockService {
         LocalDate today = LocalDate.now();
         LocalDate dateDaysFuture = today.plusDays(daysFuture);
 
-
         Sector sector = this.sectorService.findById(idSector);
         this.representantService.checkRelationBetweenRepresentantAndWarehouse(idRepresentant, sector.getWarehouse());
-
 
         List<ProductDueDateDTO> productStockList = repository.findAllProductStockDueDate(dateDaysFuture, idSector);
 
         if (productStockList.size() == 0) throw new NotFoundException("Not found products in sector");
+
+        return productStockList;
+    }
+
+    @Override
+    public List<ProductDueDateDTO> findAllProductStockDueDateFilters(Integer daysFuture,
+                                                                     Long idRepresentant, String category,
+                                                                     String sorted) {
+        String nameCategory = "";
+
+        if(category.equalsIgnoreCase("FR")){
+            nameCategory = "fresco";
+        } else if (category.equalsIgnoreCase("RF")){
+            nameCategory = "refrigerado";
+        } else {
+            nameCategory = "congelado";
+        }
+
+        LocalDate today = LocalDate.now();
+        LocalDate dateDaysFuture = today.plusDays(daysFuture);
+
+        List<ProductDueDateDTO> productStockList = repository
+                .findAllProductStockDueDateCategory(dateDaysFuture, nameCategory, idRepresentant);
+
+        if (sorted.equals("asc")){
+            productStockList.sort(Comparator.comparing(ProductDueDateDTO::getDueDate));
+        }
+
+        if (productStockList.size() == 0) throw new NotFoundException("Not found products in warehouse");
 
         return productStockList;
     }

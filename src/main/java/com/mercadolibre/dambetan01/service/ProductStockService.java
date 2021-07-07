@@ -18,4 +18,9 @@ public interface ProductStockService {
     List<ProductStock> addOrderOnProductStock(Order order);
 
     List<ProductDueDateDTO> findAllProductStockDueDateBySector(Integer daysFuture, Long idSector, Long idRepresentant);
+
+    List<ProductDueDateDTO> findAllProductStockDueDateFilters(Integer daysFuture, Long idRepresentant,
+                                                              String category, String sorted);
+
+
 }

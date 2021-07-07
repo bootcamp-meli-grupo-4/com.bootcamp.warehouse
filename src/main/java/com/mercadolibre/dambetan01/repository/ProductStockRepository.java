@@ -24,4 +24,16 @@ public interface ProductStockRepository extends JpaRepository<ProductStock, Long
             "AND orr.sector.id = :idSector " +
             "ORDER BY ps.dueDate DESC ")
     List<ProductDueDateDTO> findAllProductStockDueDate(@Param("dateFuture")LocalDate dateFuture, @Param("idSector") Long idSector);
+
+    @Query("SELECT new com.mercadolibre.dambetan01.dtos.ProductDueDateDTO(orr.id, ps.product.id, sc.category.id, ps.dueDate, " +
+            "ps.currentQuantity ) FROM ProductStock ps " +
+            "JOIN Order orr ON (ps.order.id = orr.id) " +
+            "JOIN Sector sc ON (orr.sector.id = sc.id) " +
+            "WHERE ps.dueDate <= :dateFuture " +
+            "AND sc.warehouse.representant.id = :idRepresentant " +
+            "AND ps.product.category.name = :nameCategory " +
+            "ORDER BY ps.dueDate DESC ")
+    List<ProductDueDateDTO> findAllProductStockDueDateCategory(@Param("dateFuture")LocalDate dateFuture,
+                                                               @Param("nameCategory") String nameCategory,
+                                                               @Param("idRepresentant") Long idRepresentant);
 }

@@ -74,7 +74,7 @@ INSERT INTO `warehouse` (`id`, `representant_id`) VALUES ('2', '3');
 
 --SECTORS
 INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('1', '1', '1', 0, 10000);
-INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('2', '2', '2', 0, 15000);
+INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('2', '2', '1', 0, 15000);
 INSERT INTO `sector` (`id`, `category_id`, `warehouse_id`, `current_quantity`, `quantity_max`) VALUES ('3', '3', '2', 0, 17000);
 
 -- ORDERS

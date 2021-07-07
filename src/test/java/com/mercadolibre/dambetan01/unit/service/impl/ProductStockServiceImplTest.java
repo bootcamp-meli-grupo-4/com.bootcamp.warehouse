@@ -1,20 +1,16 @@
 package com.mercadolibre.dambetan01.unit.service.impl;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
 import com.mercadolibre.dambetan01.dtos.ProductDueDateDTO;
-import com.mercadolibre.dambetan01.dtos.ProductListDTO;
 import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.model.user.Representant;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
-import com.mercadolibre.dambetan01.service.SectorService;
 import com.mercadolibre.dambetan01.service.impl.ProductStockServiceImpl;
 import com.mercadolibre.dambetan01.service.impl.RepresentantServiceImpl;
 import com.mercadolibre.dambetan01.service.impl.SectorServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.yaml.snakeyaml.representer.Represent;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -30,7 +26,6 @@ public class ProductStockServiceImplTest {
     private static ProductStockRepository repository;
     private static ProductStockServiceImpl service;
     private static SectorServiceImpl sectorService;
-    private static RepresentantServiceImpl representantService;
     private static List<ProductStock> productStockList;
     private static List<ProductDueDateDTO> productDueDateDTO;
 
@@ -38,7 +33,7 @@ public class ProductStockServiceImplTest {
     public static void setUp(){
         repository = mock(ProductStockRepository.class);
         sectorService = mock(SectorServiceImpl.class);
-        representantService = mock(RepresentantServiceImpl.class);
+        RepresentantServiceImpl representantService = mock(RepresentantServiceImpl.class);
         service = new ProductStockServiceImpl(repository, sectorService, representantService);
         productStockList = Arrays.asList(createProductStockToPost());
         productDueDateDTO = List
@@ -140,5 +135,44 @@ public class ProductStockServiceImplTest {
         assertEquals(expectedMessage, actualMessage);
 
         verify(repository, times(1)).findAllProductStockDueDate(dateDaysFuture, sector.getId());
+    }
+
+    @Test
+    public void shouldFindAllProductStockDueDateFilterCorrectly(){
+
+        LocalDate today = LocalDate.now();
+        LocalDate dateDaysFuture = today.plusDays(90);
+        Representant representant = mock(Representant.class);
+
+
+        when(repository.findAllProductStockDueDateCategory(dateDaysFuture,"fresco", representant.getId()))
+                .thenReturn(productDueDateDTO);
+        service.findAllProductStockDueDateFilters(90,representant.getId(),"FR","");
+        verify(repository, times(1))
+                .findAllProductStockDueDateCategory(dateDaysFuture,"fresco", representant.getId());
+
+    }
+
+    @Test
+    public void shouldFindAllProductStockDueDateFilterException(){
+
+        LocalDate today = LocalDate.now();
+        LocalDate dateDaysFuture = today.plusDays(90);
+        Representant representant = mock(Representant.class);
+
+
+        when(repository.findAllProductStockDueDateCategory(dateDaysFuture,"fresco", representant.getId()))
+                .thenReturn(List.of());
+
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> {
+            service.findAllProductStockDueDateFilters(90,representant.getId(),"FR","");
+        });
+        String expectedMessage = "Not Found Exception. Not found products in warehouse";
+        String actualMessage = exception.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+        verify(repository, times(1))
+                .findAllProductStockDueDateCategory(dateDaysFuture,"fresco", representant.getId());
+
     }
 }

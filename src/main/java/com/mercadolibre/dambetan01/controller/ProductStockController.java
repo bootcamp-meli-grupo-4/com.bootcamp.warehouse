@@ -28,4 +28,17 @@ public class ProductStockController {
 
     }
 
+    @GetMapping("/due-date/list")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
+    public ResponseEntity<?> findAllProductStockDueDateBySectorFilters(@RequestParam(defaultValue = "0") Integer quantityDay,
+                                                                       @RequestParam String category,
+                                                                       @RequestParam(defaultValue = "desc") String sorted,
+                                                                       Authentication authentication){
+        Long idRepresentant = Long.parseLong((String)authentication.getPrincipal());
+        return ResponseEntity.ok()
+                .body(productStockService
+                        .findAllProductStockDueDateFilters(quantityDay, idRepresentant, category, sorted));
+
+    }
+
 }

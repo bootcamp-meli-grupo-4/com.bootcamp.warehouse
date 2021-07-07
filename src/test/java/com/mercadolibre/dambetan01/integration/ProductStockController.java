@@ -27,4 +27,18 @@ public class ProductStockController extends ControllerTestLoginMvc{
         ResultMatcher resultMatcher = status().isNotFound();
         sendGetRequest("/fresh-products/due-date/?idSector=" + 3, resultMatcher);
     }
+
+    @Test
+    public void do_find_all_products_due_date_warehouse_filters_return_200() throws Exception {
+
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest("/fresh-products/due-date/list?category=FR", resultMatcher);
+    }
+
+    @Test
+    public void do_find_all_products_due_date_warehouse_filters_return_404() throws Exception {
+
+        ResultMatcher resultMatcher = status().isNotFound();
+        sendGetRequest("/fresh-products/due-date/list?category=RF", resultMatcher);
+    }
 }
