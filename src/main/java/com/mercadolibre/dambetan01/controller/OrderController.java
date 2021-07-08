@@ -38,10 +38,10 @@ public class OrderController {
         return new ResponseEntity<>(purchaseOrderService.editPurchaseOrder(editPurchaseOrderDTO, purchaseOrderId, buyerId), HttpStatus.OK);
     }
 
-    @GetMapping("orders/{orderId}")
+    @GetMapping("orders/{purchaseOrderId}")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.GET_PRODUCT_PURCHASE_ORDER_PERMISSION  + "')")
-    public ResponseEntity<?> getOrderById(@PathVariable Long orderId, Authentication authentication){
+    public ResponseEntity<?> getOrderById(@PathVariable Long purchaseOrderId, Authentication authentication){
         Long buyerId = Long.parseLong((String)authentication.getPrincipal());
-        return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(orderId, buyerId));
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(purchaseOrderId, buyerId));
     }
 }

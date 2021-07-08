@@ -32,10 +32,10 @@ public class InboundOrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(dtos);
     }
 
-    @PutMapping("/inboundorder/{orderNumber}")
+    @PutMapping("/inboundorder/{inboundOrderNumber}")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.MODIFY_STOCK_PERMISSION  + "')")
-    public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Long orderNumber, Authentication authentication){
-        orderDto.setOrderNumber(orderNumber);
+    public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Long inboundOrderNumber, Authentication authentication){
+        orderDto.setOrderNumber(inboundOrderNumber);
         Long representantId = Long.parseLong((String)authentication.getPrincipal());
         List<ProductStockResponseDto> productStockResponseDtos = orderService.modifyOrder(orderDto, representantId);
         return ResponseEntity.status(HttpStatus.CREATED).body(productStockResponseDtos);

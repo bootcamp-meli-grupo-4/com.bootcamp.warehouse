@@ -74,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
         ProductStockSearchDTO productStockSearchDTO = new ProductStockSearchDTO();
         productStockSearchDTO.setProductId(idProduct);
         List<BatchStockDTO> byProductId = productStockRepository.findByProductId(idProduct, getProductStockSortByOrder(order));
+        productStockSearchDTO.setSector(productStockRepository.findByProductBySector(idProduct));
         productStockSearchDTO.setBatchStock(byProductId);
         return productStockSearchDTO;
     }

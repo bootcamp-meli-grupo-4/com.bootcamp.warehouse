@@ -7,8 +7,6 @@ import com.mercadolibre.dambetan01.model.purchase.PurchaseOrder;
 import java.util.List;
 
 public interface IProductStockService {
-    List<ProductStock> findByProductIdAndCurrentQuantityGreaterThanEqual(Long productId, Integer currentQuantity);
-
     ProductStock save(ProductStock productStock);
 
     ProductStock decrementFromProductStock(Integer valueToDecrement, ProductStock productStock);
