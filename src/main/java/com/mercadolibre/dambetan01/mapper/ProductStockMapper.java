@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.mapper;
 
-import com.mercadolibre.dambetan01.dtos.ProductStockDto;
+import com.mercadolibre.dambetan01.dtos.inbound.ProductStockDto;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,8 @@ public class ProductStockMapper implements MapperDtoToModel<ProductStock, Produc
     @Override
     public ProductStockDto modelToDto(ProductStock model) {
         ProductStockDto dto = new ProductStockDto();
-        dto.setProductId(model.getId());
+        dto.setBatchNumber(model.getId());
+        dto.setProductId(model.getProduct().getId());
         dto.setDueDate(model.getDueDate());
         dto.setCurrentQuantity(model.getCurrentQuantity());
         dto.setCurrentTemperature(model.getCurrentTemperature());

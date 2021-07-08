@@ -87,5 +87,4 @@ public class OrderControllerTest extends ControllerTestLoginMvc {
         ResultMatcher resultMatcher = status().isNotFound();
         sendGetRequest("/fresh-products/orders/195", resultMatcher);
     }
-
 }

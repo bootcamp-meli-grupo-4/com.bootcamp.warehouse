@@ -2,8 +2,11 @@ package com.mercadolibre.dambetan01.unit.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.ProductListDTO;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
+import com.mercadolibre.dambetan01.model.Order;
 import com.mercadolibre.dambetan01.model.Product;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.repository.ProductRepository;
+import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +28,8 @@ public class ProductServiceImplTest {
     @BeforeEach
     public void setUp(){
         repository = mock(ProductRepository.class);
-        service = new ProductServiceImpl(repository);
+        final ProductStockRepository productStockRepository = mock(ProductStockRepository.class);
+        service = new ProductServiceImpl(repository, productStockRepository);
         productListDTO = List
                 .of(new ProductListDTO(1L,"Uva", "fresco", LocalDate.of(2021,12,1)));
     }

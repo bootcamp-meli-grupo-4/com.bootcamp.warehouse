@@ -1,9 +1,10 @@
 package com.mercadolibre.dambetan01.service.impl;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
-import com.mercadolibre.dambetan01.exceptions.NotFoundException;
+import com.mercadolibre.dambetan01.dtos.inbound.OrderDto;
+import com.mercadolibre.dambetan01.dtos.inbound.PostOrderDto;
+import com.mercadolibre.dambetan01.dtos.response.inbound.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
+import com.mercadolibre.dambetan01.mapper.PostOrderDTOMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.repository.OrderRepository;
@@ -39,18 +40,22 @@ public class OrderServiceImpl implements OrderService {
         this.representantService = representantService;
     }
 
-    public List<ProductStockResponseDto> crateOrder(OrderDto orderDto, Long idRepresentant) {
-        Order order = checkOrderValues(orderDto, idRepresentant);
+    public List<ProductStockResponseDto> crateOrder(PostOrderDto postOrderDto, Long idRepresentant) {
+        OrderDto orderDto = PostOrderDTOMapper.buildFrom(postOrderDto);
+        Order order = getOrder(orderDto, idRepresentant);
 
         Order finalOrder = this.orderRepository.save(order);
 
         List<ProductStock> productStocks = this.productStockService.addOrderOnProductStock(finalOrder);
+
         this.productStockService.saveAll(productStocks);
+
+        this.sectorService.updateCurrentQuantity(order.getSector());
 
         return createListProductStockResponseByProductStock(productStocks);
     }
 
-    private Order checkOrderValues(OrderDto orderDto, Long idRepresentant) {
+    private Order getOrder(OrderDto orderDto, Long idRepresentant) {
         Order order = orderMapper.dtoToModel(orderDto);
 
         Long idSection =  orderDto.getSection().getSectionCode();
@@ -84,9 +89,15 @@ public class OrderServiceImpl implements OrderService {
         if (order.isPresent()){
             orderDto.getBatchStock().forEach(p -> p.setInitialQuantity(0));
         }
-        Order orderUpdate = checkOrderValues(orderDto, idRepresentant);
+        Order orderUpdate = getOrder(orderDto, idRepresentant);
 
         Order save = orderRepository.save(orderUpdate);
+
+        List<ProductStock> productStocks = this.productStockService.addOrderOnProductStock(orderUpdate);
+
+        this.productStockService.saveAll(productStocks);
+
+        this.sectorService.updateCurrentQuantity(orderUpdate.getSector());
 
         return createListProductStockResponseByProductStock(save.getProductStocks());
     }

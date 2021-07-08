@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.mapper;
 
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.dtos.response.inbound.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.model.ProductStock;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ public class ProductStockResponseMapper implements MapperModelToDto<ProductStock
     public ProductStockResponseDto modelToDto(ProductStock model) {
         ProductStockResponseDto dto = new ProductStockResponseDto();
         dto.setBatchNumber(model.getId());
-        dto.setProductId(model.getId());
+        dto.setProductId(model.getProduct().getId());
         dto.setDueDate(model.getDueDate());
         dto.setCurrentQuantity(model.getCurrentQuantity());
         dto.setCurrentTemperature(model.getCurrentTemperature());

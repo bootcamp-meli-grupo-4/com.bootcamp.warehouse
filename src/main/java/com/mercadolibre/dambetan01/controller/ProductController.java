@@ -1,6 +1,7 @@
 package com.mercadolibre.dambetan01.controller;
 
 import com.mercadolibre.dambetan01.dtos.ProductListDTO;
+import com.mercadolibre.dambetan01.dtos.response.ProductStockSearchDTO;
 import com.mercadolibre.dambetan01.model.user.EPermission;
 import com.mercadolibre.dambetan01.service.ProductService;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,9 @@ public class ProductController {
     public List<ProductListDTO> findAllProductsListCategory(@RequestParam String category){
         return  productService.findAllProductsListByCategory(category);
     }
-
-
+    @GetMapping("/warehouse/fresh-products/list")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION  + "')")
+    public ProductStockSearchDTO findAllProductsListCategory(@RequestParam Long idProduct, @RequestParam(required = false) String order){
+        return productService.findAllProductsByIdAndSort(idProduct, order);
+    }
 }

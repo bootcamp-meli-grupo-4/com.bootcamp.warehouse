@@ -8,4 +8,6 @@ public interface SectorService {
     public void checkSectorSpace(Sector sector, int quantity);
 
     public Sector findBySectorAndWarehouse(Long idSector, Long idWarehouse);
+
+    public Sector updateCurrentQuantity(Sector sector);
 }

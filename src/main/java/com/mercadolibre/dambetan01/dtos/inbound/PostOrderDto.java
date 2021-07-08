@@ -1,7 +1,6 @@
-package com.mercadolibre.dambetan01.dtos;
+package com.mercadolibre.dambetan01.dtos.inbound;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,12 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Validated
-public class OrderDto {
-    @JsonProperty("orderNumber")
-    private Long orderNumber;
+public class PostOrderDto {
 
     @JsonProperty("orderDate")
-    @JsonFormat(pattern = "dd-MM-yyyy", shape = JsonFormat.Shape.STRING)
     @NotNull(message = "orderDate is required")
     private LocalDate orderDate;
 
@@ -34,8 +30,6 @@ public class OrderDto {
     @JsonProperty("batchStock")
     @NotNull(message = "batchStock is required")
     @Valid
-    private List<ProductStockDto> batchStock;
-
-
+    private List<PostProductStockDto> batchStock;
 
 }

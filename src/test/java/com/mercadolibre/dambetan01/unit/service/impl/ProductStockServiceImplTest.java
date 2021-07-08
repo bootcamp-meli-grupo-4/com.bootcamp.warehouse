@@ -5,32 +5,36 @@ import com.mercadolibre.dambetan01.exceptions.IllegalCategoryProductSector;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.model.*;
 import com.mercadolibre.dambetan01.model.user.Representant;
+import com.mercadolibre.dambetan01.model.Category;
+import com.mercadolibre.dambetan01.model.Order;
+import com.mercadolibre.dambetan01.model.Product;
+import com.mercadolibre.dambetan01.model.ProductStock;
 import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.impl.ProductStockServiceImpl;
 import com.mercadolibre.dambetan01.service.impl.RepresentantServiceImpl;
 import com.mercadolibre.dambetan01.service.impl.SectorServiceImpl;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mercadolibre.dambetan01.util.GenerateMock.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
 public class ProductStockServiceImplTest {
-    private static ProductStockRepository repository;
-    private static ProductStockServiceImpl service;
-    private static SectorServiceImpl sectorService;
-    private static List<ProductStock> productStockList;
-    private static List<ProductDueDateDTO> productDueDateDTO;
+    private  ProductStockRepository repository;
+    private  ProductStockServiceImpl service;
+    private  SectorServiceImpl sectorService;
+    private  List<ProductStock> productStockList;
+    private  List<ProductDueDateDTO> productDueDateDTO;
 
-    @BeforeAll
-    public static void setUp(){
+    @BeforeEach
+    public void setUp(){
         repository = mock(ProductStockRepository.class);
         sectorService = mock(SectorServiceImpl.class);
         RepresentantServiceImpl representantService = mock(RepresentantServiceImpl.class);
@@ -174,5 +178,44 @@ public class ProductStockServiceImplTest {
         verify(repository, times(1))
                 .findAllProductStockDueDateCategory(dateDaysFuture,"fresco", representant.getId());
 
+    }
+
+
+    public static ProductStock createProductStockToPost(){
+        ProductStock p1 = new ProductStock();
+        Product product = new Product();
+        Category category = new Category();
+        category.setName("Congelados");
+        category.setId(1l);
+        product.setCategory(category);
+
+        p1.setManufacturingTime(LocalDateTime.now());
+        p1.setManufacturingDate(LocalDate.now());
+        p1.setMinimumTemperature(1d);
+        p1.setInitialQuantity(1);
+        p1.setCurrentTemperature(2d);
+        p1.setDueDate(LocalDate.now());
+        p1.setProduct(product);
+
+        return p1;
+    }
+
+    public ProductStock createProductStockToPut(){
+        ProductStock p1 = new ProductStock();
+        Product product = new Product();
+        Category category = new Category();
+        category.setName("Frios");
+        category.setId(2l);
+        product.setCategory(category);
+
+        p1.setManufacturingTime(LocalDateTime.now());
+        p1.setManufacturingDate(LocalDate.now());
+        p1.setMinimumTemperature(1d);
+        p1.setCurrentQuantity(9);
+        p1.setCurrentTemperature(2d);
+        p1.setDueDate(LocalDate.now());
+        p1.setProduct(product);
+
+        return p1;
     }
 }

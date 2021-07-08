@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.unit.mapper;
 
-import com.mercadolibre.dambetan01.dtos.ProductStockDto;
+import com.mercadolibre.dambetan01.dtos.inbound.ProductStockDto;
 import com.mercadolibre.dambetan01.mapper.ProductStockMapper;
 import com.mercadolibre.dambetan01.model.Product;
 import com.mercadolibre.dambetan01.model.ProductStock;
@@ -44,6 +44,9 @@ public class ProductStockMapperTest {
     @Test
     public void shouldConvertModelToDtoCorrectly(){
         ProductStock model = new ProductStock();
+        Product p = new Product();
+        p.setId(1L);
+        model.setProduct(p);
         model.setCurrentQuantity(3);
         model.setId(1L);
         model.setManufacturingTime(LocalDateTime.now());
