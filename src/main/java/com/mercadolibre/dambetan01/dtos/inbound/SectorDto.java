@@ -1,4 +1,4 @@
-package com.mercadolibre.dambetan01.dtos;
+package com.mercadolibre.dambetan01.dtos.inbound;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

@@ -1,7 +1,9 @@
 package com.mercadolibre.dambetan01.unit.service.impl;
 
-import com.mercadolibre.dambetan01.dtos.OrderDto;
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.dtos.inbound.PostOrderDto;
+import com.mercadolibre.dambetan01.dtos.inbound.PostProductStockDto;
+import com.mercadolibre.dambetan01.dtos.inbound.SectorDto;
+import com.mercadolibre.dambetan01.dtos.response.inbound.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.mapper.OrderMapper;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.*;
@@ -14,11 +16,12 @@ import com.mercadolibre.dambetan01.service.impl.OrderServiceImpl;
 import com.mercadolibre.dambetan01.service.impl.ProductStockServiceImpl;
 import org.junit.jupiter.api.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.mercadolibre.dambetan01.util.GenerateMock.createOrderDto;
-import static com.mercadolibre.dambetan01.util.GenerateMock.createProductStockToPost;
+import static com.mercadolibre.dambetan01.unit.service.impl.ProductStockServiceImplTest.createProductStockToPost;
 import static org.mockito.Mockito.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -48,7 +51,7 @@ class OrderServiceImplTest {
     @Test
     public void shouldCreateOrderCorrectly(){
         Long idRepresentant = 1l;
-        OrderDto dto = createOrderDto();
+        PostOrderDto dto = createPostOrderDto();
         Order order = mock(Order.class);
         Sector sector = mock(Sector.class);
         Category category = mock(Category.class);
@@ -58,7 +61,7 @@ class OrderServiceImplTest {
         ProductStockResponseDto productStockResponseDto = new ProductStockResponseDto();
         productStockResponseDto.setCurrentQuantity(1);
 
-        when(orderMapper.dtoToModel(dto)).thenReturn(order);
+        when(orderMapper.dtoToModel(any())).thenReturn(order);
         when(sectorService.findBySectorAndWarehouse(dto.getSection().getSectionCode(), dto.getSection().getWarehouseCode()))
                 .thenReturn(sector);
         when(sector.getWarehouse()).thenReturn(warehouse);
@@ -84,8 +87,25 @@ class OrderServiceImplTest {
     }
 
 
+    public PostOrderDto createPostOrderDto(){
+        PostOrderDto dto = new PostOrderDto();
+        SectorDto sectorDto = new SectorDto();
+        sectorDto.setSectionCode(1l);
+        sectorDto.setWarehouseCode(1l);
 
+        dto.setOrderDate(LocalDate.now());
+        dto.setSection(sectorDto);
 
+        PostProductStockDto p1 = new PostProductStockDto();
+        p1.setManufacturingTime(LocalDateTime.now());
+        p1.setManufacturingDate(LocalDate.now());
+        p1.setMinimumTemperature(1d);
+        p1.setInitialQuantity(1);
+        p1.setCurrentTemperature(2d);
+        p1.setDueDate(LocalDate.now());
+        p1.setProductId(1l);
+        dto.setBatchStock(Arrays.asList(p1));
 
-
+        return dto;
+    }
 }

@@ -1,6 +1,6 @@
 package com.mercadolibre.dambetan01.unit.mapper;
 
-import com.mercadolibre.dambetan01.dtos.response.ProductStockResponseDto;
+import com.mercadolibre.dambetan01.dtos.response.inbound.ProductStockResponseDto;
 import com.mercadolibre.dambetan01.mapper.ProductStockResponseMapper;
 import com.mercadolibre.dambetan01.model.Product;
 import com.mercadolibre.dambetan01.model.ProductStock;
