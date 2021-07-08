@@ -1,5 +1,8 @@
 package com.mercadolibre.dambetan01.exceptions;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -10,13 +13,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @ControllerAdvice(annotations = RestController.class)
+@RequiredArgsConstructor
 public class ApiExceptionControllerAdvice {
 
     private static final Logger logger = LoggerFactory.getLogger(ApiExceptionControllerAdvice.class);
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    @ExceptionHandler({ProductUnavailableException.class})
+    public Map<String, Object> handleException(ProductUnavailableException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", ex.getHttpStatus().value());
+        response.put("message", ex.getMessage());
+        response.put("products_unavailable", ex.getProducts());
+        return response;
+    }
 
     @ExceptionHandler
     @ResponseBody
@@ -83,7 +100,21 @@ public class ApiExceptionControllerAdvice {
         return new ApiError(
                 ex.getClass().getName(),
                 ex.getMessage(),
-                HttpStatus.INTERNAL_SERVER_ERROR.value()
+                HttpStatus.NOT_FOUND.value()
+        );
+
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            IllegalCategoryProductSector.class, NoSectorSpace.class, InvalidRepresentant.class
+    })
+    @ResponseBody
+    public ApiError invalidCategoryOfProductAndSector(RuntimeException ex) {
+        return new ApiError(
+                ex.getClass().getName(),
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value()
         );
 
     }

@@ -2,13 +2,16 @@ package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.response.AccountResponseDTO;
 import com.mercadolibre.dambetan01.exceptions.ApiException;
-import com.mercadolibre.dambetan01.model.Account;
+import com.mercadolibre.dambetan01.model.user.Account;
 import com.mercadolibre.dambetan01.repository.AccountRepository;
+import com.mercadolibre.dambetan01.repository.RolePermissionRepository;
 import com.mercadolibre.dambetan01.service.ISessionService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -18,12 +21,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SessionServiceImpl implements ISessionService {
     private final AccountRepository accountRepository;
 
-    public SessionServiceImpl(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+    private final RolePermissionRepository rolePermissionRepository;
 
     /**
      * Realiza la validación del usuario y contraseña ingresado.
@@ -40,7 +42,7 @@ public class SessionServiceImpl implements ISessionService {
         Account account = accountRepository.findByUsernameAndPassword(username, password);
 
         if (account != null) {
-            String token = getJWTToken(username);
+            String token = getJWTToken(account);
             AccountResponseDTO user = new AccountResponseDTO();
             user.setUsername(username);
             user.setToken(token);
@@ -53,23 +55,33 @@ public class SessionServiceImpl implements ISessionService {
 
     /**
      * Genera un token para un usuario específico, válido por 10'
-     * @param username
+     * @param account
      * @return
      */
-    private String getJWTToken(String username) {
+    private String getJWTToken(Account account) {
         String secretKey = "mySecretKey";
+
+        List<String> permissions =
+                rolePermissionRepository.findPermissionByRoleId(account.getRole().getId())
+                .stream()
+                        .map(permission -> permission.getName().name())
+                        .collect(Collectors.toList());
+
+        String permissionsConcat = StringUtils.join(permissions, ",");
+
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-                .commaSeparatedStringToAuthorityList("ROLE_USER");
+                .commaSeparatedStringToAuthorityList("ROLE_USER," + permissionsConcat);
+
         String token = Jwts
                 .builder()
                 .setId("softtekJWT")
-                .setSubject(username)
+                .setSubject(account.getId().toString())
                 .claim("authorities",
                         grantedAuthorities.stream()
                                 .map(GrantedAuthority::getAuthority)
                                 .collect(Collectors.toList()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
+                .setExpiration(new Date(Long.MAX_VALUE))
                 .signWith(SignatureAlgorithm.HS512,
                         secretKey.getBytes()).compact();
 
