@@ -21,7 +21,6 @@ import javax.validation.Valid;
 public class OrderController {
     private final IPurchaseOrderService purchaseOrderService;
 
-
     @PostMapping("/orders")
     @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION + "')")
     public ResponseEntity<?> createPurchaseOrder(@RequestBody @Valid CreatePurchaseOrderDTO createPurchaseOrderDTO, Authentication authentication) {
@@ -46,5 +45,4 @@ public class OrderController {
 
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(orderId, buyerId));
     }
-
 }
