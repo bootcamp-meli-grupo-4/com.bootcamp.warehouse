@@ -1,1 +1,949 @@
-{"openapi":"3.0.1","info":{"title":"dambetan01","description":"dambetan01","contact":{"name":"dambetan01","email":"ext_dambetan@mercadolibre.com"},"version":"last"},"servers":[{"url":"https://null_dambetan01.furyapps.io","description":"Scope null"}],"security":[{"bearerAuth":[]}],"paths":{"/api/v1/fresh-products/orders/{purchaseOrderId}":{"put":{"tags":["order-controller"],"operationId":"editPurchaseOrder","parameters":[{"name":"purchaseOrderId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/EditPurchaseOrderDTO"}}},"required":true},"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/v1/fresh-products/inboundorder/{orderNumber}":{"put":{"tags":["inbound-order-controller"],"operationId":"modifyOrder","parameters":[{"name":"orderNumber","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/OrderDto"}}},"required":true},"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/ProductStockResponseDto"}}}}}}}},"/api/v1/sign-in":{"post":{"tags":["session-controller"],"operationId":"login","parameters":[{"name":"username","in":"query","required":true,"schema":{"type":"string"}},{"name":"password","in":"query","required":true,"schema":{"type":"string"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/AccountResponseDTO"}}}}}}},"/api/v1/fresh-products/orders":{"post":{"tags":["order-controller"],"operationId":"createPurchaseOrder","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreatePurchaseOrderDTO"}}},"required":true},"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/v1/fresh-products/inboundorder":{"post":{"tags":["inbound-order-controller"],"operationId":"createOrder","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/PostOrderDto"}}},"required":true},"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"string"}}}}}}},"/api/v1/countries":{"post":{"tags":["country-house-controller"],"operationId":"create","parameters":[{"name":"Authorization","in":"header","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CountryHouseDTO"}}},"required":true},"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/CountryHouseResponseDTO"}}}}}}},"/ping":{"get":{"tags":["ping-controller"],"operationId":"ping","responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"string"}}}}}}},"/api/v1/fresh-products/warehouse/{productId}":{"get":{"tags":["warehouse-controller"],"operationId":"getProductByWarehouse","parameters":[{"name":"productId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ProductByWarehouseDTO"}}}}}}},"/api/v1/fresh-products/warehouse/list":{"get":{"tags":["warehouse-controller"],"operationId":"findAllProductsListCategory","parameters":[{"name":"idProduct","in":"query","required":true,"schema":{"type":"integer","format":"int64"}},{"name":"order","in":"query","required":false,"schema":{"type":"string"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ProductStockSearchDTO"}}}}}}},"/api/v1/fresh-products/orders/{orderId}":{"get":{"tags":["order-controller"],"operationId":"getOrderById","parameters":[{"name":"orderId","in":"path","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/v1/fresh-products/list":{"get":{"tags":["product-controller"],"operationId":"findAllProductsListCategory_1","parameters":[{"name":"category","in":"query","required":true,"schema":{"type":"string"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/ProductListDTO"}}}}}}}},"/api/v1/fresh-products/due-date/list":{"get":{"tags":["product-stock-controller"],"operationId":"findAllProductStockDueDateBySectorFilters","parameters":[{"name":"quantityDay","in":"query","required":false,"schema":{"type":"integer","format":"int32","default":0}},{"name":"category","in":"query","required":true,"schema":{"type":"string"}},{"name":"sorted","in":"query","required":false,"schema":{"type":"string","default":"desc"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/v1/fresh-products/due-date/":{"get":{"tags":["product-stock-controller"],"operationId":"findAllProductStockDueDateBySector","parameters":[{"name":"quantityDay","in":"query","required":false,"schema":{"type":"integer","format":"int32","default":0}},{"name":"idSector","in":"query","required":true,"schema":{"type":"integer","format":"int64"}}],"responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object"}}}}}}},"/api/v1/fresh-products/":{"get":{"tags":["product-controller"],"operationId":"findAllProductsList","responses":{"400":{"description":"Bad Request","content":{"*/*":{"schema":{"oneOf":[{"type":"array","items":{"$ref":"#/components/schemas/ValidationError"}},{"type":"object","additionalProperties":{"type":"object"}},{"$ref":"#/components/schemas/ApiError"}]}}}},"500":{"description":"Internal Server Error","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"404":{"description":"Not Found","content":{"*/*":{"schema":{"$ref":"#/components/schemas/ApiError"}}}},"200":{"description":"OK","content":{"*/*":{"schema":{"type":"array","items":{"$ref":"#/components/schemas/ProductListDTO"}}}}}}}}},"components":{"schemas":{"ApiError":{"type":"object","properties":{"error":{"type":"string"},"message":{"type":"string"},"status":{"type":"integer","format":"int32"}}},"ValidationError":{"type":"object","properties":{"field":{"type":"string"},"message":{"type":"string"}}},"EditPurchaseOrderDTO":{"required":["products"],"type":"object","properties":{"products":{"type":"array","items":{"$ref":"#/components/schemas/ProductPurchaseOrderDTO"}}}},"ProductPurchaseOrderDTO":{"type":"object","properties":{"quantity":{"minimum":1,"type":"integer","format":"int32"},"productId":{"minimum":1,"type":"integer","format":"int64"}}},"OrderDto":{"required":["batchStock","orderDate","section"],"type":"object","properties":{"orderNumber":{"type":"integer","format":"int64","readOnly":true},"orderDate":{"type":"string","format":"date"},"section":{"$ref":"#/components/schemas/SectorDto"},"batchStock":{"type":"array","items":{"$ref":"#/components/schemas/ProductStockDto"}}}},"ProductStockDto":{"required":["currentTemperature","dueDate","manufacturingDate","manufacturingTime","minimumTemperature","productId"],"type":"object","properties":{"batchNumber":{"type":"integer","format":"int64"},"currentTemperature":{"type":"number","format":"double"},"minimumTemperature":{"type":"number","format":"double"},"initialQuantity":{"type":"integer","format":"int32"},"currentQuantity":{"type":"integer","format":"int32"},"manufacturingDate":{"type":"string","format":"date"},"manufacturingTime":{"type":"string","format":"date-time"},"dueDate":{"type":"string","format":"date"},"productId":{"type":"integer","format":"int64"}}},"SectorDto":{"required":["sectionCode","warehouseCode"],"type":"object","properties":{"sectionCode":{"type":"integer","format":"int64"},"warehouseCode":{"type":"integer","format":"int64"}}},"ProductStockResponseDto":{"type":"object","properties":{"batchNumber":{"type":"integer","format":"int64"},"currentTemperature":{"type":"number","format":"double"},"minimumTemperature":{"type":"number","format":"double"},"initialQuantity":{"type":"integer","format":"int32"},"currentQuantity":{"type":"integer","format":"int32"},"manufacturingDate":{"type":"string","format":"date"},"manufacturingTime":{"type":"string","format":"date-time"},"dueDate":{"type":"string","format":"date"},"productId":{"type":"integer","format":"int64"}}},"AccountResponseDTO":{"type":"object","properties":{"username":{"type":"string"},"password":{"type":"string"},"token":{"type":"string"}}},"CreatePurchaseOrderDTO":{"required":["date","products"],"type":"object","properties":{"date":{"type":"string","format":"date"},"products":{"type":"array","items":{"$ref":"#/components/schemas/ProductPurchaseOrderDTO"}}}},"PostOrderDto":{"required":["batchStock","orderDate","section"],"type":"object","properties":{"orderDate":{"type":"string","format":"date"},"section":{"$ref":"#/components/schemas/SectorDto"},"batchStock":{"type":"array","items":{"$ref":"#/components/schemas/PostProductStockDto"}}}},"PostProductStockDto":{"required":["currentTemperature","dueDate","initialQuantity","manufacturingDate","manufacturingTime","minimumTemperature","productId"],"type":"object","properties":{"currentTemperature":{"type":"number","format":"double"},"minimumTemperature":{"type":"number","format":"double"},"initialQuantity":{"type":"integer","format":"int32"},"manufacturingDate":{"type":"string","format":"date"},"manufacturingTime":{"type":"string","format":"date-time"},"dueDate":{"type":"string","format":"date"},"productId":{"type":"integer","format":"int64"}}},"CountryHouseDTO":{"required":["country","name"],"type":"object","properties":{"name":{"maxLength":2147483647,"minLength":3,"type":"string"},"country":{"maxLength":2147483647,"minLength":3,"type":"string"}}},"CountryHouseResponseDTO":{"type":"object","properties":{"message":{"type":"string"},"countryHouseDTO":{"$ref":"#/components/schemas/CountryHouseDTO"}}},"ProductByWarehouseDTO":{"type":"object","properties":{"productId":{"type":"integer","format":"int64"},"warehouses":{"type":"array","items":{"$ref":"#/components/schemas/TotalProductByWareHouseDTO"}}}},"TotalProductByWareHouseDTO":{"type":"object","properties":{"warehouseCode":{"type":"integer","format":"int64"},"totalQuantity":{"type":"integer","format":"int64"}}},"BatchStockDTO":{"type":"object","properties":{"batchNumber":{"type":"integer","format":"int64"},"currentQuantity":{"type":"integer","format":"int32"},"dueDate":{"type":"string","format":"date"}}},"ProductStockSearchDTO":{"type":"object","properties":{"productId":{"type":"integer","format":"int64"},"batchStock":{"type":"array","items":{"$ref":"#/components/schemas/BatchStockDTO"}}}},"ProductListDTO":{"type":"object","properties":{"id":{"type":"integer","format":"int64"},"name":{"type":"string"},"category":{"type":"string"},"dueDate":{"type":"string","format":"date"}}}},"securitySchemes":{"bearerAuth":{"type":"http","name":"bearerAuth","scheme":"bearer","bearerFormat":"JWT"}}}}
+openapi: 3.0.1
+info:
+  title: Warehouse
+  description: Warehouse Project
+  contact:
+    name: Warehouse
+    email: ext_warehouse@mercadolibre.com
+  version: last
+security:
+  - bearerAuth: []
+paths:
+  '/api/v1/fresh-products/orders/{purchaseOrderId}':
+    put:
+      tags:
+        - order-controller
+      operationId: editPurchaseOrder
+      parameters:
+        - name: purchaseOrderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditPurchaseOrderDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  '/api/v1/fresh-products/inboundorder/{orderNumber}':
+    put:
+      tags:
+        - inbound-order-controller
+      operationId: modifyOrder
+      parameters:
+        - name: orderNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductStockResponseDto'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/sign-in:
+    post:
+      tags:
+        - session-controller
+      operationId: login
+      parameters:
+        - name: username
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AccountResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/orders:
+    post:
+      tags:
+        - order-controller
+      operationId: createPurchaseOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePurchaseOrderDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/inboundorder:
+    post:
+      tags:
+        - inbound-order-controller
+      operationId: createOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostOrderDto'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/countries:
+    post:
+      tags:
+        - country-house-controller
+      operationId: create
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryHouseDTO'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CountryHouseResponseDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /ping:
+    get:
+      tags:
+        - ping-controller
+      operationId: ping
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  '/api/v1/fresh-products/warehouse/{productId}':
+    get:
+      tags:
+        - warehouse-controller
+      operationId: getProductByWarehouse
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductByWarehouseDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/warehouse/list:
+    get:
+      tags:
+        - warehouse-controller
+      operationId: findAllProductsListCategory
+      parameters:
+        - name: idProduct
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProductStockSearchDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  '/api/v1/fresh-products/orders/{orderId}':
+    get:
+      tags:
+        - order-controller
+      operationId: getOrderById
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/list:
+    get:
+      tags:
+        - product-controller
+      operationId: findAllProductsListCategory_1
+      parameters:
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductListDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/due-date/list:
+    get:
+      tags:
+        - product-stock-controller
+      operationId: findAllProductStockDueDateBySectorFilters
+      parameters:
+        - name: quantityDay
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: category
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: sorted
+          in: query
+          required: false
+          schema:
+            type: string
+            default: desc
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/due-date/:
+    get:
+      tags:
+        - product-stock-controller
+      operationId: findAllProductStockDueDateBySector
+      parameters:
+        - name: quantityDay
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: idSector
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /api/v1/fresh-products/:
+    get:
+      tags:
+        - product-controller
+      operationId: findAllProductsList
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductListDTO'
+        '400':
+          description: Bad Request
+          content:
+            '*/*':
+              schema:
+                oneOf:
+                  - type: object
+                    additionalProperties:
+                      type: object
+                  - type: array
+                    items:
+                      $ref: '#/components/schemas/ValidationError'
+                  - $ref: '#/components/schemas/ApiError'
+        '404':
+          description: Not Found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+        '500':
+          description: Internal Server Error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ApiError'
+components:
+  schemas:
+    ValidationError:
+      type: object
+      properties:
+        field:
+          type: string
+        message:
+          type: string
+    ApiError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+    EditPurchaseOrderDTO:
+      required:
+        - products
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductPurchaseOrderDTO'
+    ProductPurchaseOrderDTO:
+      type: object
+      properties:
+        quantity:
+          minimum: 1
+          type: integer
+          format: int32
+        productId:
+          minimum: 1
+          type: integer
+          format: int64
+    OrderDto:
+      required:
+        - batchStock
+        - orderDate
+        - section
+      type: object
+      properties:
+        orderNumber:
+          type: integer
+          format: int64
+          readOnly: true
+        orderDate:
+          type: string
+          format: date
+        section:
+          $ref: '#/components/schemas/SectorDto'
+        batchStock:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductStockDto'
+    ProductStockDto:
+      required:
+        - currentTemperature
+        - dueDate
+        - manufacturingDate
+        - manufacturingTime
+        - minimumTemperature
+        - productId
+      type: object
+      properties:
+        batchNumber:
+          type: integer
+          format: int64
+        currentTemperature:
+          type: number
+          format: double
+        minimumTemperature:
+          type: number
+          format: double
+        initialQuantity:
+          type: integer
+          format: int32
+        currentQuantity:
+          type: integer
+          format: int32
+        manufacturingDate:
+          type: string
+          format: date
+        manufacturingTime:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date
+        productId:
+          type: integer
+          format: int64
+    SectorDto:
+      required:
+        - sectionCode
+        - warehouseCode
+      type: object
+      properties:
+        sectionCode:
+          type: integer
+          format: int64
+        warehouseCode:
+          type: integer
+          format: int64
+    ProductStockResponseDto:
+      type: object
+      properties:
+        batchNumber:
+          type: integer
+          format: int64
+        currentTemperature:
+          type: number
+          format: double
+        minimumTemperature:
+          type: number
+          format: double
+        initialQuantity:
+          type: integer
+          format: int32
+        currentQuantity:
+          type: integer
+          format: int32
+        manufacturingDate:
+          type: string
+          format: date
+        manufacturingTime:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date
+        productId:
+          type: integer
+          format: int64
+    AccountResponseDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        token:
+          type: string
+    CreatePurchaseOrderDTO:
+      required:
+        - date
+        - products
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductPurchaseOrderDTO'
+    PostOrderDto:
+      required:
+        - batchStock
+        - orderDate
+        - section
+      type: object
+      properties:
+        orderDate:
+          type: string
+          format: date
+        section:
+          $ref: '#/components/schemas/SectorDto'
+        batchStock:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostProductStockDto'
+    PostProductStockDto:
+      required:
+        - currentTemperature
+        - dueDate
+        - initialQuantity
+        - manufacturingDate
+        - manufacturingTime
+        - minimumTemperature
+        - productId
+      type: object
+      properties:
+        currentTemperature:
+          type: number
+          format: double
+        minimumTemperature:
+          type: number
+          format: double
+        initialQuantity:
+          type: integer
+          format: int32
+        manufacturingDate:
+          type: string
+          format: date
+        manufacturingTime:
+          type: string
+          format: date-time
+        dueDate:
+          type: string
+          format: date
+        productId:
+          type: integer
+          format: int64
+    CountryHouseDTO:
+      required:
+        - country
+        - name
+      type: object
+      properties:
+        name:
+          maxLength: 2147483647
+          minLength: 3
+          type: string
+        country:
+          maxLength: 2147483647
+          minLength: 3
+          type: string
+    CountryHouseResponseDTO:
+      type: object
+      properties:
+        message:
+          type: string
+        countryHouseDTO:
+          $ref: '#/components/schemas/CountryHouseDTO'
+    ProductByWarehouseDTO:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        warehouses:
+          type: array
+          items:
+            $ref: '#/components/schemas/TotalProductByWareHouseDTO'
+    TotalProductByWareHouseDTO:
+      type: object
+      properties:
+        warehouseCode:
+          type: integer
+          format: int64
+        totalQuantity:
+          type: integer
+          format: int64
+    BatchStockDTO:
+      type: object
+      properties:
+        batchNumber:
+          type: integer
+          format: int64
+        currentQuantity:
+          type: integer
+          format: int32
+        dueDate:
+          type: string
+          format: date
+    ProductStockSearchDTO:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        batchStock:
+          type: array
+          items:
+            $ref: '#/components/schemas/BatchStockDTO'
+    ProductListDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        category:
+          type: string
+        dueDate:
+          type: string
+          format: date
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
