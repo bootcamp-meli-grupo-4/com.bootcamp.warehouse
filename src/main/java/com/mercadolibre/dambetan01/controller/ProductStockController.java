@@ -12,24 +12,21 @@ import org.springframework.web.bind.annotation.*;
 
 public class ProductStockController {
 
-    private ProductStockService productStockService;
+    private final ProductStockService productStockService;
 
     public ProductStockController(ProductStockService productStockService){
         this.productStockService = productStockService;
     }
 
-
     @GetMapping("/due-date/")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.FIND_ALL_PRODUCT_STOCK_DUE_DATE_BY_SECTOR  + "')")
     public ResponseEntity<?> findAllProductStockDueDateBySector(@RequestParam(defaultValue = "0") Integer quantityDay, @RequestParam Long idSector, Authentication authentication){
-
         Long idRepresentant = Long.parseLong((String)authentication.getPrincipal());
         return ResponseEntity.ok().body(productStockService.findAllProductStockDueDateBySector(quantityDay,idSector, idRepresentant));
-
     }
 
     @GetMapping("/due-date/list")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.FIND_ALL_PRODUCT_STOCK_DUE_DATE_BY_SECTOR  + "')")
     public ResponseEntity<?> findAllProductStockDueDateBySectorFilters(@RequestParam(defaultValue = "0") Integer quantityDay,
                                                                        @RequestParam String category,
                                                                        @RequestParam(defaultValue = "desc") String sorted,

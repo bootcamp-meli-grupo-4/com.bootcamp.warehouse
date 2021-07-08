@@ -1,6 +1,7 @@
 package com.mercadolibre.dambetan01.dtos.inbound;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +19,7 @@ import java.util.List;
 @Validated
 public class OrderDto {
 
-    @JsonProperty("orderNumber")
+    @JsonProperty(value = "orderNumber", access = JsonProperty.Access.READ_ONLY)
     private Long orderNumber;
 
     @JsonProperty("orderDate")

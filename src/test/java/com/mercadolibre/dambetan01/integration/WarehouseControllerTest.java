@@ -36,4 +36,22 @@ public class WarehouseControllerTest extends ControllerTestLoginMvc {
         };
         sendGetRequest(PATH + 1, resultMatcher);
     }
+
+    @Test
+    public void do_find_all_products_stock_with_order_and_id_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest(PATH + "/list?order=F&idProduct=1", resultMatcher);
+    }
+
+    @Test
+    public void do_find_all_products_stock_with_id_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest(PATH + "/list?order=F&idProduct=1", resultMatcher);
+    }
+
+    @Test
+    public void do_find_all_products_stock_without_productId_return_500() throws Exception {
+        ResultMatcher resultMatcher = status().isInternalServerError();
+        sendGetRequest(PATH + "/list?order=F", resultMatcher);
+    }
 }

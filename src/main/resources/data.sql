@@ -4,6 +4,12 @@ INSERT INTO `permission`(`id`,`name`) VALUES (2, 'BUY_PRODUCT_PERMISSION');
 INSERT INTO `permission`(`id`,`name`) VALUES (3, 'AUTHENTICATED_USER_PERMISSION');
 INSERT INTO `permission`(`id`,`name`) VALUES (4, 'EDIT_PURCHASE_ORDER_PERMISSION');
 INSERT INTO `permission`(`id`,`name`) VALUES (5, 'GET_PRODUCT_BY_WAREHOUSE_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (6, 'GET_PRODUCT_PURCHASE_ORDER_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (7, 'MODIFY_STOCK_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (8, 'LIST_ALL_PRODUCT_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (9, 'LIST_ALL_PRODUCT_PER_CATEGORY_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (10, 'FIND_ALL_PRODUCT_BY_CATEGORY_AND_WAREHOUSE_PERMISSION');
+INSERT INTO `permission`(`id`,`name`) VALUES (11, 'FIND_ALL_PRODUCT_STOCK_DUE_DATE_BY_SECTOR');
 
 --ROLE
 INSERT INTO `role`(`id`,`name`) VALUES(1,'SELLER');
@@ -17,8 +23,15 @@ INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(3, 3); -- SELLER
 
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(2, 2); -- BUYER HAS BUY_PRODUCT_PERMISSION
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(4, 2); -- BUYER HAS EDIT_PURCHASE_ORDER_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(6, 2); -- BUYER HAS GET_PRODUCT_PURCHASE_ORDER_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(8, 2); -- BUYER HAS LIST_ALL_PRODUCT_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(9, 2); -- BUYER HAS LIST_ALL_PRODUCT_PER_CATEGORY_PERMISSION
+
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(1, 3); -- REPRESENTANT HAS REGISTER_STOCK_PERMISSION
 INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(5, 3); -- REPRESENTANT HAS GET_PRODUCT_BY_WAREHOUSE_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(7, 3); -- REPRESENTANT HAS MODIFY_STOCK_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(10, 3); -- REPRESENTANT HAS FIND_ALL_PRODUCT_BY_CATEGORY_AND_WAREHOUSE_PERMISSION
+INSERT INTO `role_permission` (`permission_id`,`role_id`)VALUES(11, 3); -- REPRESENTANT HAS FIND_ALL_PRODUCT_STOCK_DUE_DATE_BY_SECTOR
 
 --STATUS PURCHASE ORDER
 INSERT INTO `status_purchase_order` (`id`, `name`) VALUES ('1', 'Novo');
@@ -88,10 +101,10 @@ INSERT INTO `orders` (`id`,`order_date`,`sector_id`) VALUES (1,'2021-08-01',1);
 INSERT INTO `orders` (`id`,`order_date`,`sector_id`) VALUES (2,'2021-08-01',2);
 
 -- PRODUCTS STOCK W1
-INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (1,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,1);
-INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (2,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,1);
-INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (3,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,2);
-INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (4,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,1,3);
+INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (1,5,30,'2021-07-20',1,'2020-09-20','2020-09-20',25,1,1);
+INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (2,5,30,'2020-07-20',1,'2020-09-20','2020-09-20',25,1,1);
+INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (3,5,30,'2021-07-20',1,'2020-09-20','2020-09-20',25,1,2);
+INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (4,5,30,'2020-07-20',1,'2020-09-20','2020-09-20',25,1,3);
 
 -- PRODUCTS STOCK W2
 INSERT INTO `product_stock` (`id`,`current_quantity`,`current_temperature`,`due_date`,`initial_quantity`,`manufacturing_date`,`manufacturing_time`,`minimum_temperature`,`order_id`,`product_id`) VALUES (5,5,30,'2020-09-20',1,'2020-09-20','2020-09-20',25,2,3);

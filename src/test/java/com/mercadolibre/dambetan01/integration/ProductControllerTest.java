@@ -15,36 +15,15 @@ public class ProductControllerTest extends ControllerTestLoginMvc{
     }
 
     @Test
-    public void do_find_all_products_list_return_404() throws Exception {
-
-        ResultMatcher resultMatcher = status().isNotFound();
+    public void do_find_all_products_list_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
         sendGetRequest("/fresh-products/", resultMatcher);
     }
 
     @Test
     public void do_find_all_products_list_category_return_404() throws Exception {
-
         ResultMatcher resultMatcher = status().isNotFound();
-        sendGetRequest("/fresh-products/list?category=FR", resultMatcher);
-    }
-
-    //TODO: MOVER PARA WAREHOUSE
-    @Test
-    public void do_find_all_products_stock_with_order_and_id_return_200() throws Exception {
-        ResultMatcher resultMatcher = status().isOk();
-        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F&idProduct=1", resultMatcher);
-    }
-
-    @Test
-    public void do_find_all_products_stock_with_id_return_200() throws Exception {
-        ResultMatcher resultMatcher = status().isOk();
-        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F&idProduct=1", resultMatcher);
-    }
-
-    @Test
-    public void do_find_all_products_stock_without_productId_return_500() throws Exception {
-        ResultMatcher resultMatcher = status().isInternalServerError();
-        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F", resultMatcher);
+        sendGetRequest("/fresh-products/list?category=FF", resultMatcher);
     }
 }
 

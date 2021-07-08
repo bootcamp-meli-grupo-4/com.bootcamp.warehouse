@@ -33,7 +33,7 @@ public class InboundOrderController {
     }
 
     @PutMapping("/inboundorder/{orderNumber}")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.REGISTER_STOCK_PERMISSION  + "')")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.MODIFY_STOCK_PERMISSION  + "')")
     public ResponseEntity<List<ProductStockResponseDto>> modifyOrder(@Valid @RequestBody OrderDto orderDto, @PathVariable Long orderNumber, Authentication authentication){
         orderDto.setOrderNumber(orderNumber);
         Long representantId = Long.parseLong((String)authentication.getPrincipal());

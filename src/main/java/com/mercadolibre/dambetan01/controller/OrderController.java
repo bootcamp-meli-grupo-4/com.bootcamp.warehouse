@@ -39,10 +39,9 @@ public class OrderController {
     }
 
     @GetMapping("orders/{orderId}")
-    @PreAuthorize("hasAuthority('" + EPermission.Constants.BUY_PRODUCT_PERMISSION  + "')")
+    @PreAuthorize("hasAuthority('" + EPermission.Constants.GET_PRODUCT_PURCHASE_ORDER_PERMISSION  + "')")
     public ResponseEntity<?> getOrderById(@PathVariable Long orderId, Authentication authentication){
         Long buyerId = Long.parseLong((String)authentication.getPrincipal());
-
         return ResponseEntity.status(HttpStatus.OK).body(purchaseOrderService.getOrderById(orderId, buyerId));
     }
 }
