@@ -1,5 +1,6 @@
 package com.mercadolibre.dambetan01.repository;
 
+import com.mercadolibre.dambetan01.dtos.inbound.SectorDto;
 import com.mercadolibre.dambetan01.dtos.response.BatchStockDTO;
 import com.mercadolibre.dambetan01.dtos.ProductDueDateDTO;
 import com.mercadolibre.dambetan01.model.ProductStock;
@@ -20,6 +21,9 @@ public interface ProductStockRepository extends JpaRepository<ProductStock, Long
 
     @Query("SELECT new com.mercadolibre.dambetan01.dtos.response.BatchStockDTO(ps.id, ps.currentQuantity, ps.dueDate) from ProductStock ps where ps.product.id = :productId")
     List<BatchStockDTO> findByProductId(Long productId, Sort sort);
+
+    @Query("SELECT DISTINCT new com.mercadolibre.dambetan01.dtos.inbound.SectorDto(ps.order.sector.id, ps.order.sector.warehouse.id) FROM ProductStock ps WHERE ps.product.id = :productId")
+    SectorDto findByProductBySector(Long productId);
 
     @Query("SELECT new com.mercadolibre.dambetan01.dtos.ProductDueDateDTO(orr.id, ps.product.id, sc.category.id, ps.dueDate, " +
             " ps.currentQuantity ) FROM ProductStock ps " +

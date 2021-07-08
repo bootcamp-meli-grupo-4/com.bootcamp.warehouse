@@ -22,11 +22,6 @@ public class ProductStockService implements IProductStockService {
     private final ProductStockRepository productStockRepository;
 
     @Override
-    public List<ProductStock> findByProductIdAndCurrentQuantityGreaterThanEqual(Long productId, Integer currentQuantity) {
-        return productStockRepository.findByProductIdAndCurrentQuantityGreaterThanEqual(productId, currentQuantity);
-    }
-
-    @Override
     public ProductStock save(ProductStock productStock) {
         return productStockRepository.save(productStock);
     }
@@ -65,7 +60,7 @@ public class ProductStockService implements IProductStockService {
     public ProductStock incrementStock(Integer valueToIncrement, Long stockId) {
         ProductStock productStock = productStockRepository.findById(stockId).orElseThrow(() -> new NotFoundException("not found sotck with id " + stockId));
         productStock.setCurrentQuantity(productStock.getCurrentQuantity() + valueToIncrement);
-        return productStockRepository.save(productStock);
+        return this.save(productStock);
     }
 
     private boolean hasEnoughProduct(List<ProductStock> productStocks, Integer minQuantity) {
@@ -83,6 +78,6 @@ public class ProductStockService implements IProductStockService {
         Integer newStockQuantity = productStock.getCurrentQuantity() - valueToDecrement;
         if(newStockQuantity < 0) throw new RuntimeException("Nao ha quantidade suficiente do produto");
         productStock.setCurrentQuantity(newStockQuantity);
-        return productStockRepository.save(productStock);
+        return this.save(productStock);
     }
 }
