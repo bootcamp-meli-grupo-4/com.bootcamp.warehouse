@@ -1,6 +1,7 @@
 package com.mercadolibre.dambetan01.integration;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.ResultMatcher;
 
@@ -26,4 +27,24 @@ public class ProductControllerTest extends ControllerTestLoginMvc{
         ResultMatcher resultMatcher = status().isNotFound();
         sendGetRequest("/fresh-products/list?category=FR", resultMatcher);
     }
+
+    //TODO: MOVER PARA WAREHOUSE
+    @Test
+    public void do_find_all_products_stock_with_order_and_id_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F&idProduct=1", resultMatcher);
+    }
+
+    @Test
+    public void do_find_all_products_stock_with_id_return_200() throws Exception {
+        ResultMatcher resultMatcher = status().isOk();
+        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F&idProduct=1", resultMatcher);
+    }
+
+    @Test
+    public void do_find_all_products_stock_without_productId_return_500() throws Exception {
+        ResultMatcher resultMatcher = status().isInternalServerError();
+        sendGetRequest("/fresh-products/warehouse/fresh-products/list?order=F", resultMatcher);
+    }
 }
+

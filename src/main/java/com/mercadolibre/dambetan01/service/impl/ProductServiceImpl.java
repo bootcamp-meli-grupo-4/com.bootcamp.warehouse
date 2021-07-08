@@ -1,10 +1,14 @@
 package com.mercadolibre.dambetan01.service.impl;
 
 import com.mercadolibre.dambetan01.dtos.ProductListDTO;
+import com.mercadolibre.dambetan01.dtos.response.BatchStockDTO;
+import com.mercadolibre.dambetan01.dtos.response.ProductStockSearchDTO;
 import com.mercadolibre.dambetan01.exceptions.NotFoundException;
 import com.mercadolibre.dambetan01.model.Product;
 import com.mercadolibre.dambetan01.repository.ProductRepository;
+import com.mercadolibre.dambetan01.repository.ProductStockRepository;
 import com.mercadolibre.dambetan01.service.ProductService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -14,9 +18,11 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
     final private ProductRepository repository;
+    final private ProductStockRepository productStockRepository;
 
-    public ProductServiceImpl(ProductRepository repository) {
+    public ProductServiceImpl(ProductRepository repository, ProductStockRepository productStockRepository) {
         this.repository = repository;
+        this.productStockRepository = productStockRepository;
     }
 
     @Override
@@ -61,6 +67,30 @@ public class ProductServiceImpl implements ProductService {
         if (productList.size() == 0) throw new NotFoundException("Not found products");
 
         return productList;
+    }
+
+    @Override
+    public ProductStockSearchDTO findAllProductsByIdAndSort(Long idProduct, String order) {
+        ProductStockSearchDTO productStockSearchDTO = new ProductStockSearchDTO();
+        productStockSearchDTO.setProductId(idProduct);
+        List<BatchStockDTO> byProductId = productStockRepository.findByProductId(idProduct, getProductStockSortByOrder(order));
+        productStockSearchDTO.setBatchStock(byProductId);
+        return productStockSearchDTO;
+    }
+
+    private Sort getProductStockSortByOrder(String order) {
+        if (order == null)
+            return null;
+        switch (order){
+            case "L":
+                return Sort.by(Sort.Direction.DESC, "id");
+            case "C":
+                return Sort.by(Sort.Direction.DESC, "currentQuantity");
+            case "F":
+                return Sort.by(Sort.Direction.DESC, "dueDate");
+            default:
+                return null;
+        }
     }
 
 
