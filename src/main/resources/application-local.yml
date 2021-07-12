@@ -16,5 +16,5 @@ spring:
       sql: debug
       ddl-auto: create # create-drop para crear las entidades, una vez creadas y finalizado el mododel cambiar a none
 
-server:
-  port: 8082 # no cambiar en prod
+#server:
+#  port: 8082 # no cambiar en prod

@@ -17,7 +17,6 @@ import static java.lang.String.format;
 @Configuration
 public class SpringDocConfig {
 
-	@Value("${server.port}")
 	private Long port;
 
 	@Bean
