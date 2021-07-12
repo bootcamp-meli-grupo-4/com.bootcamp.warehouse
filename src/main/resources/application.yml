@@ -7,6 +7,18 @@ spring:
     add-mappings: false # Whether to enable default resource handling.
   mvc:
     throw-exception-if-no-handler-found: true # Whether a "NoHandlerFoundException" should be thrown if no Handler was found to process a request.
+  datasource:
+    host: DB_MYSQL_DESAENV04_FINALPROJE_FINALPROJE_ENDPOINT
+    db: finalproje
+    username: finalproje_WPROD
+    password: DB_MYSQL_DESAENV04_FINALPROJE_FINALPROJE_WPROD
+    initialization-mode: always
+
+  jpa:
+    show-sql: true
+    hibernate:
+      sql: debug
+    database-platform: org.hibernate.dialect.MySQL8Dialect
 
 server:
   compression:
@@ -27,6 +39,6 @@ springdoc:
     path: /swagger-ui.html
 
 app:
-  title: dambetan01
+  title: projeto-final-bootcamp-gabriel
   description: @project.description@
   version: @project.version@
